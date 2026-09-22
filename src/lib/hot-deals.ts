@@ -1,32 +1,33 @@
 const TRAVELPAYOUTS_MARKER = process.env.TRAVELPAYOUTS_MARKER ?? "777777";
 
-type DestinationSpec = { code: string; name: string; maxTripDuration: number };
+type DestinationSpec = { code: string; name: string; nameEn: string; maxTripDuration: number };
 
 // City codes chosen (and named in Hebrew) by us — not translated from API
 // text — so there's no risk of a wrong/guessed translation reaching the
-// page. European destinations are capped at an 8-day trip, longer-haul
+// page. `nameEn` is only used as the Pexels photo search query, never
+// rendered. European destinations are capped at an 8-day trip, longer-haul
 // destinations at 10 days (both per the user's request).
 export const EUROPE_DESTINATIONS: DestinationSpec[] = [
-  { code: "PAR", name: "פריז", maxTripDuration: 8 },
-  { code: "ROM", name: "רומא", maxTripDuration: 8 },
-  { code: "BCN", name: "ברצלונה", maxTripDuration: 8 },
-  { code: "ATH", name: "אתונה", maxTripDuration: 8 },
-  { code: "MIL", name: "מילאנו", maxTripDuration: 8 },
-  { code: "AMS", name: "אמסטרדם", maxTripDuration: 8 },
-  { code: "PRG", name: "פראג", maxTripDuration: 8 },
-  { code: "BUD", name: "בודפשט", maxTripDuration: 8 },
-  { code: "VIE", name: "וינה", maxTripDuration: 8 },
-  { code: "BER", name: "ברלין", maxTripDuration: 8 },
-  { code: "LON", name: "לונדון", maxTripDuration: 8 },
-  { code: "LIS", name: "ליסבון", maxTripDuration: 8 },
+  { code: "PAR", name: "פריז", nameEn: "Paris", maxTripDuration: 8 },
+  { code: "ROM", name: "רומא", nameEn: "Rome", maxTripDuration: 8 },
+  { code: "BCN", name: "ברצלונה", nameEn: "Barcelona", maxTripDuration: 8 },
+  { code: "ATH", name: "אתונה", nameEn: "Athens", maxTripDuration: 8 },
+  { code: "MIL", name: "מילאנו", nameEn: "Milan", maxTripDuration: 8 },
+  { code: "AMS", name: "אמסטרדם", nameEn: "Amsterdam", maxTripDuration: 8 },
+  { code: "PRG", name: "פראג", nameEn: "Prague", maxTripDuration: 8 },
+  { code: "BUD", name: "בודפשט", nameEn: "Budapest", maxTripDuration: 8 },
+  { code: "VIE", name: "וינה", nameEn: "Vienna", maxTripDuration: 8 },
+  { code: "BER", name: "ברלין", nameEn: "Berlin", maxTripDuration: 8 },
+  { code: "LON", name: "לונדון", nameEn: "London", maxTripDuration: 8 },
+  { code: "LIS", name: "ליסבון", nameEn: "Lisbon", maxTripDuration: 8 },
 ];
 
 export const FAR_DESTINATIONS: DestinationSpec[] = [
-  { code: "BKK", name: "בנגקוק", maxTripDuration: 10 },
-  { code: "HKT", name: "פוקט", maxTripDuration: 10 },
-  { code: "DXB", name: "דובאי", maxTripDuration: 10 },
-  { code: "ZNZ", name: "זנזיבר", maxTripDuration: 10 },
-  { code: "NYC", name: "ניו יורק", maxTripDuration: 10 },
+  { code: "BKK", name: "בנגקוק", nameEn: "Bangkok", maxTripDuration: 10 },
+  { code: "HKT", name: "פוקט", nameEn: "Phuket", maxTripDuration: 10 },
+  { code: "DXB", name: "דובאי", nameEn: "Dubai", maxTripDuration: 10 },
+  { code: "ZNZ", name: "זנזיבר", nameEn: "Zanzibar", maxTripDuration: 10 },
+  { code: "NYC", name: "ניו יורק", nameEn: "New York City", maxTripDuration: 10 },
 ];
 
 export const ALL_DESTINATIONS: DestinationSpec[] = [...EUROPE_DESTINATIONS, ...FAR_DESTINATIONS];
@@ -76,6 +77,7 @@ type DateFare = {
 export type Deal = {
   airline: string;
   city: string;
+  imageQuery: string;
   departureLabel: string;
   price: string;
   bookingUrl: string;
@@ -148,10 +150,11 @@ async function getCheapestFare(
   return fares.reduce((cheapest, fare) => (fare.price < cheapest.price ? fare : cheapest));
 }
 
-function toDeal(fare: DateFare, hebrewName: string): Deal {
+function toDeal(fare: DateFare, hebrewName: string, nameEn: string): Deal {
   return {
     airline: toAirlineName(fare.airline),
     city: hebrewName,
+    imageQuery: nameEn,
     departureLabel: formatRoundTripRange(fare.departure_at, fare.return_at),
     price: `$${Math.round(fare.price)}`,
     bookingUrl: `https://www.aviasales.com${fare.link}&marker=${TRAVELPAYOUTS_MARKER}`,
@@ -184,17 +187,17 @@ export async function getHotDeals(limit: number): Promise<Deal[]> {
 
   try {
     const perDestination = await Promise.all(
-      ALL_DESTINATIONS.map(async ({ code, name, maxTripDuration }) => {
+      ALL_DESTINATIONS.map(async ({ code, name, nameEn, maxTripDuration }) => {
         const fare = await getCheapestFare(code, maxTripDuration, token, ["2026-12"], 3600);
-        return fare ? { fare, hebrewName: name } : null;
+        return fare ? { fare, hebrewName: name, nameEn } : null;
       })
     );
 
     return perDestination
-      .filter((entry): entry is { fare: DateFare; hebrewName: string } => entry !== null)
+      .filter((entry): entry is { fare: DateFare; hebrewName: string; nameEn: string } => entry !== null)
       .sort((a, b) => a.fare.price - b.fare.price)
       .slice(0, limit)
-      .map(({ fare, hebrewName }) => toDeal(fare, hebrewName));
+      .map(({ fare, hebrewName, nameEn }) => toDeal(fare, hebrewName, nameEn));
   } catch {
     return [];
   }
@@ -215,17 +218,17 @@ export async function getLastMinuteDeals(limit: number): Promise<Deal[]> {
 
   try {
     const perDestination = await Promise.all(
-      ALL_DESTINATIONS.map(async ({ code, name }) => {
+      ALL_DESTINATIONS.map(async ({ code, name, nameEn }) => {
         const fare = await getCheapestFare(code, LAST_MINUTE_MAX_TRIP_DURATION, token, months, 1800, allowedDates);
-        return fare ? { fare, hebrewName: name } : null;
+        return fare ? { fare, hebrewName: name, nameEn } : null;
       })
     );
 
     return perDestination
-      .filter((entry): entry is { fare: DateFare; hebrewName: string } => entry !== null)
+      .filter((entry): entry is { fare: DateFare; hebrewName: string; nameEn: string } => entry !== null)
       .sort((a, b) => a.fare.price - b.fare.price)
       .slice(0, limit)
-      .map(({ fare, hebrewName }) => toDeal(fare, hebrewName));
+      .map(({ fare, hebrewName, nameEn }) => toDeal(fare, hebrewName, nameEn));
   } catch {
     return [];
   }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getHotDeals, ALL_DESTINATIONS } from "@/lib/hot-deals";
+import { attachPhotos } from "@/lib/destination-photos";
 import DealCard from "@/components/home/DealCard";
 
 export const metadata: Metadata = {
@@ -9,18 +10,19 @@ export const metadata: Metadata = {
 
 export default async function DealsPage() {
   const deals = await getHotDeals(ALL_DESTINATIONS.length);
+  const dealsWithPhotos = await attachPhotos(deals);
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
       <h1 className="text-[42px] font-extrabold text-brand-dark">דילים חמים לטיול הבא שלך</h1>
       <p className="mt-2 text-brand-ink-soft">טיסות ישירות הלוך-חזור מתל אביב לדצמבר — ממוינות מהזול ליקר.</p>
 
-      {deals.length === 0 ? (
+      {dealsWithPhotos.length === 0 ? (
         <p className="mt-10 text-brand-ink-soft">לא נמצאו דילים כרגע — נסו לרענן בעוד כמה דקות.</p>
       ) : (
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {deals.map((deal, index) => (
-            <DealCard key={deal.bookingUrl} deal={deal} index={index} />
+          {dealsWithPhotos.map((deal, index) => (
+            <DealCard key={deal.bookingUrl} deal={deal} index={index} photo={deal.photo} />
           ))}
         </div>
       )}

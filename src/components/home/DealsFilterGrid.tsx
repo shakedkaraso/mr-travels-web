@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import type { Deal } from "@/lib/hot-deals";
+import type { DestinationPhoto } from "@/lib/destination-photos";
 import DealCard from "@/components/home/DealCard";
 
 type FilterId = "christmas" | "holiday" | "lastMinute";
+type DealWithPhoto = Deal & { photo: DestinationPhoto | null };
 
 export default function DealsFilterGrid({
   christmasDeals,
   lastMinuteDeals,
 }: {
-  christmasDeals: Deal[];
-  lastMinuteDeals: Deal[];
+  christmasDeals: DealWithPhoto[];
+  lastMinuteDeals: DealWithPhoto[];
 }) {
   const [active, setActive] = useState<FilterId>("christmas");
 
@@ -37,7 +39,7 @@ export default function DealsFilterGrid({
       ) : (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {deals.map((deal, index) => (
-            <DealCard key={deal.bookingUrl} deal={deal} index={index} />
+            <DealCard key={deal.bookingUrl} deal={deal} index={index} photo={deal.photo} />
           ))}
         </div>
       )}
