@@ -105,30 +105,69 @@ function formatRoundTripRange(departureIso: string, returnIso: string): string {
   return `${depart.getDate()} ${departMonth} - ${back.getDate()} ${backMonth}`;
 }
 
-/** Cheapest direct round-trip fare from TLV to `code` in December, capped
- * at `maxTripDuration` days — via Travelpayouts' "Cheapest tickets grouped
- * by the specific attribute" endpoint (grouped_prices), which is the only
- * one of their date-search endpoints that actually supports a trip-duration
- * cap: https://support.travelpayouts.com/hc/en-us/articles/203956163-Aviasales-Data-API
- * Returns null if the token is missing, the request fails, or no fare
- * matches (e.g. no direct route, or nothing within the duration cap). */
+async function fetchGroupedPrices(
+  code: string,
+  departureMonth: string,
+  maxTripDuration: number,
+  token: string,
+  revalidateSeconds: number
+): Promise<DateFare[]> {
+  const res = await fetch(
+    `https://api.travelpayouts.com/aviasales/v3/grouped_prices?origin=TLV&destination=${code}&departure_at=${departureMonth}&direct=true&min_trip_duration=1&max_trip_duration=${maxTripDuration}&currency=usd&token=${token}`,
+    { next: { revalidate: revalidateSeconds } }
+  );
+  if (!res.ok) return [];
+  const json: { success: boolean; data: Record<string, DateFare> } = await res.json();
+  if (!json.success || !json.data || typeof json.data !== "object") return [];
+  return Object.values(json.data);
+}
+
+/** Cheapest direct round-trip fare from TLV to `code`, capped at
+ * `maxTripDuration` days — via Travelpayouts' "Cheapest tickets grouped by
+ * the specific attribute" endpoint (grouped_prices), the only one of their
+ * date-search endpoints that actually supports a trip-duration cap:
+ * https://support.travelpayouts.com/hc/en-us/articles/203956163-Aviasales-Data-API
+ * `departureMonths` are queried and merged (a narrow departure window can
+ * straddle a month boundary); `allowedDepartureDates`, if given, further
+ * restricts results to fares departing on one of those exact YYYY-MM-DD
+ * dates. Returns null if the token is missing, every request fails, or
+ * nothing matches. */
 async function getCheapestFare(
   code: string,
   maxTripDuration: number,
-  token: string
+  token: string,
+  departureMonths: string[],
+  revalidateSeconds: number,
+  allowedDepartureDates?: Set<string>
 ): Promise<DateFare | null> {
-  const departureMonth = "2026-12";
-  const res = await fetch(
-    `https://api.travelpayouts.com/aviasales/v3/grouped_prices?origin=TLV&destination=${code}&departure_at=${departureMonth}&direct=true&min_trip_duration=1&max_trip_duration=${maxTripDuration}&currency=usd&token=${token}`,
-    { next: { revalidate: 3600 } }
+  const perMonth = await Promise.all(
+    departureMonths.map((month) => fetchGroupedPrices(code, month, maxTripDuration, token, revalidateSeconds))
   );
-  if (!res.ok) return null;
-  const json: { success: boolean; data: Record<string, DateFare> } = await res.json();
-  if (!json.success || !json.data || typeof json.data !== "object") return null;
-
-  const fares = Object.values(json.data);
+  const fares = perMonth.flat().filter((fare) => !allowedDepartureDates || allowedDepartureDates.has(fare.departure_at.slice(0, 10)));
   if (fares.length === 0) return null;
   return fares.reduce((cheapest, fare) => (fare.price < cheapest.price ? fare : cheapest));
+}
+
+function toDeal(fare: DateFare, hebrewName: string): Deal {
+  return {
+    airline: toAirlineName(fare.airline),
+    city: hebrewName,
+    departureLabel: formatRoundTripRange(fare.departure_at, fare.return_at),
+    price: `$${Math.round(fare.price)}`,
+    bookingUrl: `https://www.aviasales.com${fare.link}&marker=${TRAVELPAYOUTS_MARKER}`,
+  };
+}
+
+/** YYYY-MM-DD for each of the next `count` days, starting tomorrow. */
+function nextDays(count: number): string[] {
+  const days: string[] = [];
+  const now = new Date();
+  for (let i = 1; i <= count; i++) {
+    const d = new Date(now);
+    d.setDate(d.getDate() + i);
+    days.push(d.toISOString().slice(0, 10));
+  }
+  return days;
 }
 
 /** Real direct round-trip fares from Tel Aviv for December, European
@@ -146,7 +185,7 @@ export async function getHotDeals(limit: number): Promise<Deal[]> {
   try {
     const perDestination = await Promise.all(
       ALL_DESTINATIONS.map(async ({ code, name, maxTripDuration }) => {
-        const fare = await getCheapestFare(code, maxTripDuration, token);
+        const fare = await getCheapestFare(code, maxTripDuration, token, ["2026-12"], 3600);
         return fare ? { fare, hebrewName: name } : null;
       })
     );
@@ -155,13 +194,38 @@ export async function getHotDeals(limit: number): Promise<Deal[]> {
       .filter((entry): entry is { fare: DateFare; hebrewName: string } => entry !== null)
       .sort((a, b) => a.fare.price - b.fare.price)
       .slice(0, limit)
-      .map(({ fare, hebrewName }) => ({
-        airline: toAirlineName(fare.airline),
-        city: hebrewName,
-        departureLabel: formatRoundTripRange(fare.departure_at, fare.return_at),
-        price: `$${Math.round(fare.price)}`,
-        bookingUrl: `https://www.aviasales.com${fare.link}&marker=${TRAVELPAYOUTS_MARKER}`,
-      }));
+      .map(({ fare, hebrewName }) => toDeal(fare, hebrewName));
+  } catch {
+    return [];
+  }
+}
+
+const LAST_MINUTE_MAX_TRIP_DURATION = 7;
+const LAST_MINUTE_WINDOW_DAYS = 2;
+
+/** "דקה ה-90" — real direct round-trips departing in the next two days,
+ * capped at a 7-day trip, across the same destination list as getHotDeals.
+ * Same fallback behavior: empty list rather than fabricated deals. */
+export async function getLastMinuteDeals(limit: number): Promise<Deal[]> {
+  const token = process.env.TRAVELPAYOUTS_API_TOKEN;
+  if (!token) return [];
+
+  const allowedDates = new Set(nextDays(LAST_MINUTE_WINDOW_DAYS));
+  const months = Array.from(new Set(Array.from(allowedDates, (d) => d.slice(0, 7))));
+
+  try {
+    const perDestination = await Promise.all(
+      ALL_DESTINATIONS.map(async ({ code, name }) => {
+        const fare = await getCheapestFare(code, LAST_MINUTE_MAX_TRIP_DURATION, token, months, 1800, allowedDates);
+        return fare ? { fare, hebrewName: name } : null;
+      })
+    );
+
+    return perDestination
+      .filter((entry): entry is { fare: DateFare; hebrewName: string } => entry !== null)
+      .sort((a, b) => a.fare.price - b.fare.price)
+      .slice(0, limit)
+      .map(({ fare, hebrewName }) => toDeal(fare, hebrewName));
   } catch {
     return [];
   }
