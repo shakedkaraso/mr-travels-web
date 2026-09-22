@@ -42,6 +42,8 @@ const AIRLINE_NAMES: Record<string, string> = {
   TP: "TAP Air Portugal",
   TK: "Turkish Airlines",
   PC: "Pegasus",
+  TO: "Transavia France",
+  U8: "Tus Airways",
 };
 
 function toAirlineName(code: string): string {
@@ -109,7 +111,7 @@ export async function getHotDeals(limit: number): Promise<Deal[]> {
     const perDestination = await Promise.all(
       EUROPE_DESTINATIONS.map(async ({ code, name }) => {
         const res = await fetch(
-          `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin=TLV&destination=${code}&departure_at=${departureMonth}&return_at=${departureMonth}&one_way=false&direct=false&sorting=price&currency=usd&limit=1&token=${token}`,
+          `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin=TLV&destination=${code}&departure_at=${departureMonth}&return_at=${departureMonth}&one_way=false&direct=true&sorting=price&currency=usd&limit=1&token=${token}`,
           { next: { revalidate: 3600 } }
         );
         if (!res.ok) return null;
