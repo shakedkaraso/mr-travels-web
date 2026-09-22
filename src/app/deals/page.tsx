@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getHotDeals, EUROPE_DESTINATIONS } from "@/lib/hot-deals";
+import { getHotDeals, ALL_DESTINATIONS } from "@/lib/hot-deals";
 import DealCard from "@/components/home/DealCard";
 
 export const metadata: Metadata = {
@@ -8,12 +8,12 @@ export const metadata: Metadata = {
 };
 
 export default async function DealsPage() {
-  const deals = await getHotDeals(EUROPE_DESTINATIONS.length);
+  const deals = await getHotDeals(ALL_DESTINATIONS.length);
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 sm:py-20">
       <h1 className="text-[42px] font-extrabold text-brand-dark">דילים חמים לטיול הבא שלך</h1>
-      <p className="mt-2 text-brand-ink-soft">כל הטיסות הלוך-חזור מתל אביב ליעדים באירופה, לדצמבר — ממוינות מהזול ליקר.</p>
+      <p className="mt-2 text-brand-ink-soft">טיסות ישירות הלוך-חזור מתל אביב לדצמבר — ממוינות מהזול ליקר.</p>
 
       {deals.length === 0 ? (
         <p className="mt-10 text-brand-ink-soft">לא נמצאו דילים כרגע — נסו לרענן בעוד כמה דקות.</p>
