@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #00000b;
+
+  /* Exact values from the Figma design (node 1:2) */
+  --brand-ink: #00000b;
+  --brand-ink-soft: #47464c;
+  --brand-ink-muted: #78767d;
+  --brand-pink: #e4006c;
+  --brand-pink-tint: #ffd9e0;
+  --brand-pink-ink: #ffffff;
+  --brand-paper: #f8f9fa;
+  --brand-line: #edeeef;
+  --brand-field-bg: #f8f9fa;
+  --brand-field-border: #c8c5cd;
+  --brand-dark: #17172f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-ink-soft: var(--brand-ink-soft);
+  --color-brand-ink-muted: var(--brand-ink-muted);
+  --color-brand-pink: var(--brand-pink);
+  --color-brand-pink-tint: var(--brand-pink-tint);
+  --color-brand-pink-ink: var(--brand-pink-ink);
+  --color-brand-paper: var(--brand-paper);
+  --color-brand-line: var(--brand-line);
+  --color-brand-field-bg: var(--brand-field-bg);
+  --color-brand-field-border: var(--brand-field-border);
+  --color-brand-dark: var(--brand-dark);
+
+  --font-sans: var(--font-rubik);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}

@@ -1,0 +1,4 @@
+{
+  "adapter": "next-babel-source",
+  "notes": "data-ve-id is stamped at compile time by babel-plugin-ve-source.js (dev only). Elements inside .map()/.flatMap() callbacks are intentionally left unstamped/non-editable in this first version."
+}

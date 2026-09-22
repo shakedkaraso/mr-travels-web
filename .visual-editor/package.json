@@ -1,0 +1,11 @@
+{
+  "name": "mr-travels-web-visual-editor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dev-only bridge server dependencies for the Visual Editor (Next.js adapter). Never deployed with the site.",
+  "dependencies": {
+    "@babel/parser": "^7.26.0",
+    "@babel/traverse": "^7.26.0",
+    "@babel/generator": "^7.26.0"
+  }
+}

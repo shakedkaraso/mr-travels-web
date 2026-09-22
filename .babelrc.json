@@ -1,0 +1,8 @@
+{
+  "presets": ["next/babel"],
+  "env": {
+    "development": {
+      "plugins": ["./.visual-editor/babel-plugin-ve-source.js"]
+    }
+  }
+}
