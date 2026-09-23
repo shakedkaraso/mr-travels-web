@@ -45,7 +45,7 @@ export default function DealsPopup() {
         aria-labelledby="deals-popup-title"
         className="relative w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl"
       >
-        <button class="absolute-ve-41da"
+        <button
           ref={closeButtonRef}
           type="button"
           onClick={() => setOpen(false)}
