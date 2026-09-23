@@ -238,6 +238,15 @@ export function findDestination(code: string): DestinationSpec | undefined {
   return ALL_DESTINATIONS.find((d) => d.code === code.toUpperCase());
 }
 
+// Always shown first in "most-booked destinations," ahead of the raw
+// popularity ranking below — per the user (2026-09-23): Dubai is very
+// in-demand with the audience she's targeting, even though Travelpayouts'
+// route-popularity signal (which spans Aviasales' whole global user base)
+// doesn't rank it that high for TLV specifically. This is a business
+// judgment call, not fabricated data — Dubai's own price/dates are still
+// real, live numbers, same as every other destination here.
+const PINNED_DESTINATIONS = ["DXB"];
+
 /** Real most-booked destinations from Tel Aviv, via Travelpayouts' route-
  * popularity sort (the documented replacement for the old /v1/city-directions
  * endpoint: sorting=route + unique=true, origin only — see
@@ -247,22 +256,26 @@ export function findDestination(code: string): DestinationSpec | undefined {
  * site's positioning, so results are filtered down to our own curated
  * destination list (which already has Hebrew names, photos and trip-length
  * rules wired up) and ranked within it — real popularity data, scoped to a
- * deliberately curated set rather than fabricated. */
+ * deliberately curated set rather than fabricated. PINNED_DESTINATIONS are
+ * guaranteed a slot ahead of the ranking. */
 export async function getPopularDestinations(limit: number): Promise<DestinationSpec[]> {
   const token = process.env.TRAVELPAYOUTS_API_TOKEN;
   if (!token) return [];
+
+  const pinned = PINNED_DESTINATIONS.map(findDestination).filter((d): d is DestinationSpec => d !== undefined);
+  const seen = new Set(pinned.map((d) => d.code));
+  if (pinned.length >= limit) return pinned.slice(0, limit);
 
   try {
     const res = await fetch(
       `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin=TLV&sorting=route&unique=true&direct=true&currency=usd&limit=100&token=${token}`,
       { next: { revalidate: 3600 * 12 } }
     );
-    if (!res.ok) return [];
+    if (!res.ok) return pinned;
     const json: { success: boolean; data: DateFare[] } = await res.json();
-    if (!json.success || !Array.isArray(json.data)) return [];
+    if (!json.success || !Array.isArray(json.data)) return pinned;
 
-    const seen = new Set<string>();
-    const ranked: DestinationSpec[] = [];
+    const ranked: DestinationSpec[] = [...pinned];
     for (const fare of json.data) {
       const spec = findDestination(fare.destination);
       if (spec && !seen.has(spec.code)) {
@@ -273,7 +286,7 @@ export async function getPopularDestinations(limit: number): Promise<Destination
     }
     return ranked;
   } catch {
-    return [];
+    return pinned;
   }
 }
 
