@@ -5,7 +5,7 @@ export default function Hero() {
     <section className="relative overflow-hidden">
       <div
         className="absolute inset-0 -z-10 bg-[#0a3a4a] bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/beach.jpg')" }}
+        style={{ backgroundImage: `url('${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/beach.jpg')` }}
         aria-hidden="true"
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/45 via-black/10 to-black/25" aria-hidden="true" />
