@@ -18,8 +18,8 @@ const TESTIMONIALS: Testimonial[] = [
 export default function Testimonials() {
   return (
     <section className="bg-white py-16 sm:py-20">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[1fr_1.2fr] lg:items-center">
-        <div className="text-center lg:text-start">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+        <div className="min-w-0 text-center lg:text-start">
           <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-brand-paper px-3 py-1 text-xs font-semibold text-brand-ink-soft">
             <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-brand-pink">
               <path d="M10 1.5 12.6 7.3l6.4.6-4.8 4.2 1.4 6.3L10 15.3l-5.6 3.1 1.4-6.3L1 7.9l6.4-.6L10 1.5Z" />
