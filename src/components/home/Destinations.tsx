@@ -1,15 +1,18 @@
+import Link from "next/link";
+import { getPopularDestinations, getDealsForDestination } from "@/lib/hot-deals";
 import { getDestinationPhoto } from "@/lib/destination-photos";
 
-const DESTINATIONS = [
-  { name: "Amalfi Coast, Italy", query: "Amalfi Coast Italy", meta: "From $1,299 • Flight + 7 Days Hotel", gradient: "from-cyan-600 to-blue-800", size: "lg" as const },
-  { name: "Dubai, UAE", query: "Dubai UAE", meta: "From $850", gradient: "from-amber-500 to-orange-700", size: "sm" as const },
-  { name: "Paris, France", query: "Paris France", meta: "From $590", gradient: "from-rose-400 to-pink-700", size: "sm" as const },
-  { name: "Swiss Alps, Switzerland", query: "Swiss Alps Switzerland", meta: "From $945 • Winter Specials Available", gradient: "from-slate-500 to-slate-800", size: "lg" as const },
-];
+const CARD_GRADIENTS = ["from-cyan-600 to-blue-800", "from-amber-500 to-orange-700", "from-rose-400 to-pink-700", "from-slate-500 to-slate-800"];
 
 export default async function Destinations() {
+  const popular = await getPopularDestinations(4);
+  if (popular.length === 0) return null;
+
   const destinations = await Promise.all(
-    DESTINATIONS.map(async (dest) => ({ ...dest, photo: await getDestinationPhoto(dest.query) }))
+    popular.map(async (dest) => {
+      const [cheapest, photo] = await Promise.all([getDealsForDestination(dest.code, 1), getDestinationPhoto(dest.nameEn)]);
+      return { ...dest, price: cheapest[0]?.price ?? null, photo };
+    })
   );
 
   return (
@@ -19,15 +22,20 @@ export default async function Destinations() {
           היעדים שהכי הרבה אהבתם החודש
         </h2>
         <p className="mt-2 text-sm text-brand-ink-soft">
-          גלו את היעדים המבוקשים ביותר אצל הגולשים שלנו.
+          גלו את היעדים המבוקשים ביותר אצל הגולשים שלנו — טיסות ישירות מתל אביב.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {destinations.map((dest) => (
-          <figure
-            key={dest.name}
-            className={`relative overflow-hidden rounded-2xl h-64 flex items-end p-5 ${dest.photo ? "" : `bg-gradient-to-br ${dest.gradient}`}`}
+      {/* Figma grid: 4 columns x 2 rows — card 1 spans 2x2, cards 2-3 are
+          1x1, card 4 spans 2 columns in row 2. */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 sm:auto-rows-[16rem]">
+        {destinations.map((dest, index) => (
+          <Link
+            key={dest.code}
+            href={`/deals/${dest.code}`}
+            className={`group relative overflow-hidden rounded-2xl h-64 sm:h-full flex items-end p-5 transition-transform hover:scale-[1.01] ${
+              index === 0 ? "sm:col-span-2 sm:row-span-2" : index === 3 ? "sm:col-span-2" : ""
+            } ${dest.photo ? "" : `bg-gradient-to-br ${CARD_GRADIENTS[index % CARD_GRADIENTS.length]}`}`}
           >
             {dest.photo && (
               // eslint-disable-next-line @next/next/no-img-element
@@ -36,14 +44,14 @@ export default async function Destinations() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" aria-hidden="true" />
             <div className="relative">
               <h3 className="text-lg font-bold text-white drop-shadow-sm">{dest.name}</h3>
-              <p className="text-xs text-white/85">{dest.meta}</p>
+              {dest.price && <p className="text-xs text-white/85">החל מ-{dest.price} · הלוך-חזור</p>}
             </div>
             {dest.photo && (
               <figcaption className="sr-only">
                 Photo by {dest.photo.photographer} on Pexels ({dest.photo.photographerUrl})
               </figcaption>
             )}
-          </figure>
+          </Link>
         ))}
       </div>
     </section>

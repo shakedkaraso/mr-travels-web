@@ -1,6 +1,6 @@
 const TRAVELPAYOUTS_MARKER = process.env.TRAVELPAYOUTS_MARKER ?? "777777";
 
-type DestinationSpec = { code: string; name: string; nameEn: string; maxTripDuration: number };
+export type DestinationSpec = { code: string; name: string; nameEn: string; maxTripDuration: number };
 
 // City codes chosen (and named in Hebrew) by us — not translated from API
 // text — so there's no risk of a wrong/guessed translation reaching the
@@ -229,6 +229,68 @@ export async function getLastMinuteDeals(limit: number): Promise<Deal[]> {
       .sort((a, b) => a.fare.price - b.fare.price)
       .slice(0, limit)
       .map(({ fare, hebrewName, nameEn }) => toDeal(fare, hebrewName, nameEn));
+  } catch {
+    return [];
+  }
+}
+
+export function findDestination(code: string): DestinationSpec | undefined {
+  return ALL_DESTINATIONS.find((d) => d.code === code.toUpperCase());
+}
+
+/** Real most-booked destinations from Tel Aviv, via Travelpayouts' route-
+ * popularity sort (the documented replacement for the old /v1/city-directions
+ * endpoint: sorting=route + unique=true, origin only — see
+ * https://support.travelpayouts.com/hc/en-us/articles/203956163-Aviasales-Data-API).
+ * That raw popularity ranking spans Aviasales' whole user base and skews
+ * toward CIS destinations (Moscow, Tbilisi, Batumi...) that don't fit this
+ * site's positioning, so results are filtered down to our own curated
+ * destination list (which already has Hebrew names, photos and trip-length
+ * rules wired up) and ranked within it — real popularity data, scoped to a
+ * deliberately curated set rather than fabricated. */
+export async function getPopularDestinations(limit: number): Promise<DestinationSpec[]> {
+  const token = process.env.TRAVELPAYOUTS_API_TOKEN;
+  if (!token) return [];
+
+  try {
+    const res = await fetch(
+      `https://api.travelpayouts.com/aviasales/v3/prices_for_dates?origin=TLV&sorting=route&unique=true&direct=true&currency=usd&limit=100&token=${token}`,
+      { next: { revalidate: 3600 * 12 } }
+    );
+    if (!res.ok) return [];
+    const json: { success: boolean; data: DateFare[] } = await res.json();
+    if (!json.success || !Array.isArray(json.data)) return [];
+
+    const seen = new Set<string>();
+    const ranked: DestinationSpec[] = [];
+    for (const fare of json.data) {
+      const spec = findDestination(fare.destination);
+      if (spec && !seen.has(spec.code)) {
+        seen.add(spec.code);
+        ranked.push(spec);
+      }
+      if (ranked.length >= limit) break;
+    }
+    return ranked;
+  } catch {
+    return [];
+  }
+}
+
+/** Every direct round-trip fare option for a single destination in
+ * December (not just the cheapest), sorted by price — for the "see all
+ * deals to this destination" page a Destinations card links to. */
+export async function getDealsForDestination(code: string, limit: number): Promise<Deal[]> {
+  const token = process.env.TRAVELPAYOUTS_API_TOKEN;
+  const spec = findDestination(code);
+  if (!token || !spec) return [];
+
+  try {
+    const fares = await fetchGroupedPrices(spec.code, "2026-12", spec.maxTripDuration, token, 3600);
+    return fares
+      .sort((a, b) => a.price - b.price)
+      .slice(0, limit)
+      .map((fare) => toDeal(fare, spec.name, spec.nameEn));
   } catch {
     return [];
   }
