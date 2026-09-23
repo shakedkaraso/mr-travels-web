@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import Link from "next/link";
+import { submitLead } from "@/app/actions/leads";
 
 type Variant = "footer" | "popup" | "hero";
 
@@ -29,17 +30,27 @@ const VARIANT_STYLES: Record<Variant, { input: string; button: string; label: st
   },
 };
 
+const SOURCE_BY_VARIANT: Record<Variant, string> = {
+  footer: "newsletter_footer",
+  popup: "newsletter_popup",
+  hero: "newsletter_hero",
+};
+
 export default function NewsletterForm({ variant = "footer" }: { variant?: Variant }) {
   const emailId = useId();
   const consentId = useId();
-  const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const styles = VARIANT_STYLES[variant];
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
+    const email = (new FormData(form).get("email") as string) ?? "";
+    const consent = form.querySelector<HTMLInputElement>("input[type=checkbox]")?.checked ?? false;
+
     setStatus("submitting");
-    // TODO(supabase): insert into `leads` table once Supabase is wired into this project.
-    window.setTimeout(() => setStatus("success"), 400);
+    const result = await submitLead({ email, source: SOURCE_BY_VARIANT[variant], consent });
+    setStatus(result.ok ? "success" : "error");
   }
 
   if (status === "success") {
@@ -54,6 +65,7 @@ export default function NewsletterForm({ variant = "footer" }: { variant?: Varia
         </label>
         <input
           id={emailId}
+          name="email"
           type="email"
           required
           placeholder="האימייל שלכם"
@@ -77,6 +89,7 @@ export default function NewsletterForm({ variant = "footer" }: { variant?: Varia
           </Link>
         </label>
       </div>
+      {status === "error" && <p className="text-xs font-semibold text-brand-pink">משהו השתבש, נסו שוב</p>}
     </form>
   );
 }
