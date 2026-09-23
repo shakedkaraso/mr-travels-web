@@ -12,7 +12,7 @@ const SOCIAL_LINKS = [
 function SocialIcon({ icon }: { icon: "facebook" | "instagram" | "tiktok" }) {
   const paths: Record<typeof icon, React.ReactNode> = {
     facebook: (
-      <path className="[width:32px] [height:35px] [min-width:35px] object-ve-fcf910" d="M13.5 9H15V6.5h-1.75C11.34 6.5 10 7.79 10 9.7V11H8.5v2.5H10V18h2.5v-4.5h1.75L14.75 11H12.5v-1c0-.55.2-1 1-1Z" />
+      <path d="M13.5 9H15V6.5h-1.75C11.34 6.5 10 7.79 10 9.7V11H8.5v2.5H10V18h2.5v-4.5h1.75L14.75 11H12.5v-1c0-.55.2-1 1-1Z" />
     ),
     instagram: (
       <path d="M8.5 6h7A2.5 2.5 0 0 1 18 8.5v7a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 6 15.5v-7A2.5 2.5 0 0 1 8.5 6Zm0 1.5c-.55 0-1 .45-1 1v7c0 .55.45 1 1 1h7c.55 0 1-.45 1-1v-7c0-.55-.45-1-1-1h-7ZM12 9.25A2.75 2.75 0 1 1 9.25 12 2.75 2.75 0 0 1 12 9.25Zm0 1.5A1.25 1.25 0 1 0 13.25 12 1.25 1.25 0 0 0 12 10.75Zm3.4-2.15a.65.65 0 1 1-.65.65.65.65 0 0 1 .65-.65Z" />
@@ -22,7 +22,7 @@ function SocialIcon({ icon }: { icon: "facebook" | "instagram" | "tiktok" }) {
     ),
   };
   return (
-    <svg viewBox="0 0 24 24" className="fill-current [width:25px] [min-width:30px] [height:30px] object-ve-71bc2" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-current" aria-hidden="true">
       {paths[icon]}
     </svg>
   );

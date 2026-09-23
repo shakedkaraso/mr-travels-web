@@ -5,7 +5,7 @@ import type { Deal } from "@/lib/hot-deals";
 import type { DestinationPhoto } from "@/lib/destination-photos";
 import DealCard from "@/components/home/DealCard";
 
-type FilterId = "christmas" | "holiday" | "lastMinute";
+type FilterId = "christmas" | "lastMinute";
 type DealWithPhoto = Deal & { photo: DestinationPhoto | null };
 
 export default function DealsFilterGrid({
@@ -17,15 +17,14 @@ export default function DealsFilterGrid({
 }) {
   const [active, setActive] = useState<FilterId>("christmas");
 
-  const deals = active === "christmas" ? christmasDeals : active === "lastMinute" ? lastMinuteDeals : [];
+  const deals = active === "christmas" ? christmasDeals : lastMinuteDeals;
 
   return (
     <>
       <div className="mb-2 flex flex-wrap items-center justify-between gap-4">
         <h2 className="text-[42px] font-extrabold text-brand-dark">דילים חמים לטיול הבא שלך</h2>
         <div className="flex flex-wrap gap-2">
-          <FilterChip label="חופשה בחג המולד" active={active === "christmas"} onClick={() => setActive("christmas")} />
-          <FilterChip label="Holiday Specials" active={active === "holiday"} onClick={() => setActive("holiday")} />
+          <FilterChip label="לחופשה בכריסמס" active={active === "christmas"} onClick={() => setActive("christmas")} />
           <FilterChip label="דקה ה-90" active={active === "lastMinute"} onClick={() => setActive("lastMinute")} />
         </div>
       </div>

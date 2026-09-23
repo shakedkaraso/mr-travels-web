@@ -78,7 +78,7 @@ export default function PassengersPicker({ onChange }: { onChange?: (counts: Pas
       </button>
 
       {open && (
-        <div className="absolute end-0 z-20 mt-2 w-72 rounded-2xl border border-brand-line bg-white p-4 shadow-2xl">
+        <div className="absolute end-0 z-20 mt-2 w-[min(18rem,calc(100vw-2.5rem))] rounded-2xl border border-brand-line bg-white p-4 shadow-2xl">
           <div className="flex flex-col gap-3">
             {CATEGORIES.map((category) => (
               <div key={category.key} className="flex items-center justify-between">
