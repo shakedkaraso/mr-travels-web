@@ -37,7 +37,11 @@ export default function Features() {
             key={feature.title}
             className="rounded-2xl border border-brand-line bg-white p-6 text-center shadow-sm"
           >
-            <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-pink-tint text-brand-pink">
+            <span
+              className={`mx-auto mb-4 flex items-center justify-center rounded-full bg-brand-pink-tint text-brand-pink ${
+                feature.icon ? "h-12 w-12" : "h-16 w-16"
+              }`}
+            >
               {feature.icon ? (
                 <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
                   {feature.icon}
