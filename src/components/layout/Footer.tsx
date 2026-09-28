@@ -1,5 +1,6 @@
 import Link from "next/link";
 import NewsletterForm from "@/components/forms/NewsletterForm";
+import SocialLinks from "@/components/layout/SocialLinks";
 
 const EXPLORE_LINKS = [
   { href: "/destinations", label: "Destinations" },
@@ -23,6 +24,7 @@ export default function Footer() {
         <div className="space-y-3">
           <span className="text-lg font-extrabold">Mr. Travels</span>
           <p className="text-sm leading-relaxed text-white/70">Crafting unforgettable journeys for the sophisticated adventurer since 2012.</p>
+          <SocialLinks variant="dark" />
         </div>
 
         <div>
