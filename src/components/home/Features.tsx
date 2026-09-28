@@ -1,8 +1,10 @@
+import PiggyBankIcon from "@/components/home/PiggyBankIcon";
+
 const FEATURES = [
   {
     title: "מחירים משתלמים",
     description: "אנו עושים את כל המאמצים כדי למצוא לכם את הטיסות הכי זולות ומשתלמות.",
-    icon: <path d="M4 12 12 4l8 8-8 8-8-8Zm8-4.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" />,
+    icon: null,
   },
   {
     title: "שירות מקצועי ואישי",
@@ -36,9 +38,13 @@ export default function Features() {
             className="rounded-2xl border border-brand-line bg-white p-6 text-center shadow-sm"
           >
             <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-pink-tint text-brand-pink">
-              <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
-                {feature.icon}
-              </svg>
+              {feature.icon ? (
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
+                  {feature.icon}
+                </svg>
+              ) : (
+                <PiggyBankIcon />
+              )}
             </span>
             <h3 className="mb-1.5 font-bold text-brand-ink">{feature.title}</h3>
             <p className="text-sm leading-relaxed text-brand-ink-soft">{feature.description}</p>
