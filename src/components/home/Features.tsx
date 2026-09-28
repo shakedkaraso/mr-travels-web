@@ -39,7 +39,7 @@ export default function Features() {
           >
             <span
               className={`mx-auto mb-4 flex items-center justify-center rounded-full bg-brand-pink-tint text-brand-pink ${
-                feature.icon ? "h-12 w-12" : "h-16 w-16"
+                feature.icon ? "h-12 w-12" : "h-20 w-20"
               }`}
             >
               {feature.icon ? (
