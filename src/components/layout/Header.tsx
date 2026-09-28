@@ -22,7 +22,7 @@ function SocialIcon({ icon }: { icon: "facebook" | "instagram" | "tiktok" }) {
     ),
   };
   return (
-    <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-current" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className="h-[30px] w-[30px] fill-current" aria-hidden="true">
       {paths[icon]}
     </svg>
   );
