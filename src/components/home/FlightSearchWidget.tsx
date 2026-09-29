@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import PassengersPicker, { type PassengerCounts } from "@/components/home/PassengersPicker";
 import AirportAutocomplete from "@/components/home/AirportAutocomplete";
+import MagnifierIcon from "@/components/home/MagnifierIcon";
 
 type TripType = "round-trip" | "one-way";
 type FlightClass = "tourist" | "business" | "first";
@@ -114,9 +115,7 @@ export default function FlightSearchWidget() {
           className="col-span-full flex items-center justify-center gap-2 rounded-xl bg-brand-pink py-3.5 text-[18px] font-semibold text-white shadow-lg shadow-brand-pink/30 transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink lg:col-span-1"
         >
           חיפוש טיסות
-          <svg viewBox="0 0 20 20" className="h-5 w-5 shrink-0" aria-hidden="true">
-            <path d="M15.5 10H4.5M9 5.5 4.5 10 9 14.5" stroke="currentColor" strokeWidth="1.75" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          <MagnifierIcon />
         </button>
 
         {formError && <p className="col-span-full text-sm font-semibold text-brand-pink">{formError}</p>}
