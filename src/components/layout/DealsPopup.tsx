@@ -50,7 +50,7 @@ export default function DealsPopup() {
           type="button"
           onClick={() => setOpen(false)}
           aria-label="סגירה"
-          className="absolute top-3 inset-inline-end-3 flex h-8 w-8 items-center justify-center rounded-full text-brand-ink-soft transition-colors hover:bg-brand-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-pink [margin-block-end:20px]"
+          className="absolute top-3 end-3 flex h-8 w-8 items-center justify-center rounded-full text-brand-ink-soft transition-colors hover:bg-brand-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-pink [margin-block-end:20px]"
         >
           ✕
         </button>
