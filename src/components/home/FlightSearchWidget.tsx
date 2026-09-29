@@ -60,12 +60,12 @@ export default function FlightSearchWidget() {
   return (
     <div className="rounded-3xl bg-white/95 p-5 shadow-2xl shadow-black/20 backdrop-blur sm:p-7">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <div className="inline-flex rounded-full bg-brand-paper p-1 text-sm font-semibold">
+        <div className="flex w-full flex-col gap-1 rounded-2xl bg-brand-paper p-1 text-sm font-semibold sm:w-auto sm:flex-row sm:rounded-full">
           <button
             type="button"
             onClick={() => setTripType("round-trip")}
             aria-pressed={tripType === "round-trip"}
-            className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 transition-colors ${
+            className={`flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 transition-colors ${
               tripType === "round-trip" ? "bg-brand-ink text-white" : "text-brand-ink-soft"
             }`}
           >
@@ -77,7 +77,7 @@ export default function FlightSearchWidget() {
             type="button"
             onClick={() => setTripType("one-way")}
             aria-pressed={tripType === "one-way"}
-            className={`flex items-center gap-1.5 rounded-full px-4 py-1.5 transition-colors ${
+            className={`flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-4 py-1.5 transition-colors ${
               tripType === "one-way" ? "bg-brand-ink text-white" : "text-brand-ink-soft"
             }`}
           >
@@ -112,7 +112,7 @@ export default function FlightSearchWidget() {
 
         <button
           type="submit"
-          className="col-span-full flex items-center justify-center gap-2 rounded-xl bg-brand-pink py-3.5 text-[18px] font-semibold text-white shadow-lg shadow-brand-pink/30 transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink lg:col-span-1"
+          className="col-span-full flex items-center justify-center gap-[18px] rounded-xl bg-brand-pink py-3.5 text-[18px] font-semibold text-white shadow-lg shadow-brand-pink/30 transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink lg:col-span-1"
         >
           חיפוש טיסות
           <MagnifierIcon />
