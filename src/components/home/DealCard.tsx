@@ -28,7 +28,7 @@ export default function DealCard({
             <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" aria-hidden="true" />
           </>
         )}
-        <span className="absolute top-3 inset-inline-start-3 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-brand-ink">
+        <span className="absolute top-4 inset-inline-start-4 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-brand-ink">
           {deal.airline}
         </span>
         {photo && (
@@ -52,7 +52,7 @@ export default function DealCard({
           href={deal.bookingUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mx-auto block w-[85%] rounded-xl bg-brand-pink py-1.5 text-center text-sm font-semibold text-white transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink"
+          className="mx-auto block w-[75%] rounded-xl bg-brand-pink py-1.5 text-center text-sm font-semibold text-white transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink"
         >
           הזמינו עכשיו
         </a>
