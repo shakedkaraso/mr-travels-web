@@ -31,12 +31,12 @@ export default async function Destinations() {
 
       {/* Figma grid: 4 columns x 2 rows — card 1 spans 2x2, cards 2-3 are
           1x1, card 4 spans 2 columns in row 2. */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 sm:auto-rows-[16rem]">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 sm:auto-rows-[45vh]">
         {destinations.map((dest, index) => (
           <Link
             key={dest.code}
             href={`/deals/${dest.code}`}
-            className={`group relative overflow-hidden rounded-2xl h-64 sm:h-full flex items-end p-5 transition-transform hover:scale-[1.01] ${
+            className={`group relative overflow-hidden rounded-2xl h-[45vh] sm:h-full flex items-end p-5 transition-transform hover:scale-[1.01] ${
               index === 0 ? "sm:col-span-2 sm:row-span-2" : index === 3 ? "sm:col-span-2" : ""
             } ${dest.photo ? "" : `bg-gradient-to-br ${CARD_GRADIENTS[index % CARD_GRADIENTS.length]}`}`}
           >
@@ -46,7 +46,7 @@ export default async function Destinations() {
             )}
             <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-transparent" aria-hidden="true" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" aria-hidden="true" />
-            <div className="relative">
+            <div className="relative pe-5">
               <h3 className="text-lg font-bold text-white drop-shadow-sm">{dest.name}</h3>
               {dest.price && <p className="text-xs text-white/85">החל מ-{dest.price} · הלוך-חזור</p>}
             </div>
