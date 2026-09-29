@@ -1,3 +1,12 @@
+/* Pre-register the Travelpayouts widget's "isolation" reset layer here,
+   below Tailwind's own layers, before it exists. CSS layer priority is
+   decided by order of first declaration in the whole document — not
+   specificity or source order — so without this, the widget's later,
+   dynamically-injected `@layer isolation { html,body,div,... }` reset
+   would outrank Tailwind's utilities (breaking mx-auto centering and
+   font-sans site-wide) simply for loading after our stylesheet. */
+@layer isolation, theme, base, components, utilities;
+
 @import "tailwindcss";
 
 :root {
