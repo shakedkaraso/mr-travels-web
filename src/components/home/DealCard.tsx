@@ -28,7 +28,7 @@ export default function DealCard({
             <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" aria-hidden="true" />
           </>
         )}
-        <span className="absolute top-4 inset-inline-start-4 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-brand-ink">
+        <span className="absolute top-5 inset-inline-start-5 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-brand-ink">
           {deal.airline}
         </span>
         {photo && (

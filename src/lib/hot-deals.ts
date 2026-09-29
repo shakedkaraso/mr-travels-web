@@ -219,6 +219,10 @@ export async function getHotDeals(limit: number): Promise<Deal[]> {
 
 const LAST_MINUTE_MAX_TRIP_DURATION = 7;
 const LAST_MINUTE_WINDOW_DAYS = 2;
+// "דקה ה-90" is supposed to feel like a steal — filter out anything above
+// this before ranking, rather than just taking the cheapest N regardless
+// of how high that ends up being.
+const LAST_MINUTE_MAX_PRICE = 250;
 
 /** "דקה ה-90" — real direct round-trips departing in the next two days,
  * capped at a 7-day trip, across the same destination list as getHotDeals.
@@ -240,6 +244,7 @@ export async function getLastMinuteDeals(limit: number): Promise<Deal[]> {
 
     return perDestination
       .filter((entry): entry is { fare: DateFare; hebrewName: string; photoQuery: string } => entry !== null)
+      .filter((entry) => entry.fare.price <= LAST_MINUTE_MAX_PRICE)
       .sort((a, b) => a.fare.price - b.fare.price)
       .slice(0, limit)
       .map(({ fare, hebrewName, photoQuery }) => toDeal(fare, hebrewName, photoQuery));
