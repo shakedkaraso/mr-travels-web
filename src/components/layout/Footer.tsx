@@ -23,7 +23,7 @@ export default function Footer() {
     <footer className="bg-brand-dark text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-3">
-          <Image src="/images/logo-white.png" alt="Mr.travels" width={180} height={46} className="h-10 w-auto" />
+          <Image src="/images/logo-white.png" alt="Mr.travels" width={180} height={46} className="h-12 w-auto" />
           <p className="text-sm leading-relaxed text-white/70">יוצרים עבורכם חוויות טיול בלתי נשכחות כבר מ-2012.</p>
           <SocialLinks variant="dark" />
         </div>
