@@ -15,7 +15,7 @@ export default function DealCard({
   return (
     <article className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-brand-line">
       <figure
-        className={`relative h-40 ${photo ? "" : `bg-gradient-to-br ${CARD_GRADIENTS[index % CARD_GRADIENTS.length]}`}`}
+        className={`relative h-56 ${photo ? "" : `bg-gradient-to-br ${CARD_GRADIENTS[index % CARD_GRADIENTS.length]}`}`}
       >
         {photo && (
           <>

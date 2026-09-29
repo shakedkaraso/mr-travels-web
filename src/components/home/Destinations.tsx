@@ -31,12 +31,12 @@ export default async function Destinations() {
 
       {/* Figma grid: 4 columns x 2 rows — card 1 spans 2x2, cards 2-3 are
           1x1, card 4 spans 2 columns in row 2. */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 sm:auto-rows-[26rem]">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 sm:auto-rows-[16rem]">
         {destinations.map((dest, index) => (
           <Link
             key={dest.code}
             href={`/deals/${dest.code}`}
-            className={`group relative overflow-hidden rounded-2xl h-[26rem] sm:h-full flex items-end p-5 transition-transform hover:scale-[1.01] ${
+            className={`group relative overflow-hidden rounded-2xl h-64 sm:h-full flex items-end p-5 transition-transform hover:scale-[1.01] ${
               index === 0 ? "sm:col-span-2 sm:row-span-2" : index === 3 ? "sm:col-span-2" : ""
             } ${dest.photo ? "" : `bg-gradient-to-br ${CARD_GRADIENTS[index % CARD_GRADIENTS.length]}`}`}
           >
