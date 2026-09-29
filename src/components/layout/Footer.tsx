@@ -29,8 +29,8 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="mb-4 text-[20px] font-semibold tracking-wider text-white/50">ניווט</h3>
-          <ul className="space-y-2.5 text-[18px] font-normal">
+          <h3 className="mb-2 text-[20px] font-semibold tracking-wider text-white/50">ניווט</h3>
+          <ul className="space-y-2.5 text-[16px] font-normal">
             {EXPLORE_LINKS.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="text-white/80 transition-colors hover:text-brand-pink">
@@ -42,8 +42,8 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="mb-4 text-[20px] font-semibold tracking-wider text-white/50">החברה</h3>
-          <ul className="space-y-2.5 text-[18px] font-normal">
+          <h3 className="mb-2 text-[20px] font-semibold tracking-wider text-white/50">החברה</h3>
+          <ul className="space-y-2.5 text-[16px] font-normal">
             {COMPANY_LINKS.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="text-white/80 transition-colors hover:text-brand-pink">
@@ -55,19 +55,15 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="mb-4 text-[20px] font-semibold tracking-wider text-white/50">הישארו מעודכנים</h3>
+          <h3 className="mb-2 text-[20px] font-semibold tracking-wider text-white/50">הישארו מעודכנים</h3>
           <p className="mb-3 text-sm text-white/70">קבלו דילים בלעדיים ישירות למייל.</p>
           <NewsletterForm variant="footer" />
         </div>
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-white/60 sm:flex-row">
+        <div className="mx-auto flex max-w-7xl items-center justify-center px-6 py-5 text-xs text-white/60">
           <p>© 2024 Mr.travels. כל הזכויות שמורות.</p>
-          <div className="flex items-center gap-3">
-            <span className="rounded border border-white/20 px-1.5 py-0.5">VISA</span>
-            <span className="rounded border border-white/20 px-1.5 py-0.5">Apple Pay</span>
-          </div>
         </div>
       </div>
     </footer>
