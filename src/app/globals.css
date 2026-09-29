@@ -35,6 +35,12 @@
   --color-brand-dark: var(--brand-dark);
 
   --font-sans: var(--font-rubik);
+
+  /* Site-wide body text felt too small — bump the default (text-sm) scale
+     up to a comfortable 18px baseline. Headings and explicitly-sized
+     elements are untouched since they use larger/fixed sizes already. */
+  --text-sm: 1.125rem;
+  --text-sm--line-height: 1.6;
 }
 
 html,
