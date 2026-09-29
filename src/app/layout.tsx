@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <WhatsAppButton />
         {/* DealsPopup temporarily disabled at the user's request — component kept for later */}
         {process.env.NODE_ENV === "development" && <VisualEditorBoot />}
+        <Script src="https://tpemb.com/wl_web/main.js?wl_id=22783" type="module" strategy="afterInteractive" />
       </body>
     </html>
   );

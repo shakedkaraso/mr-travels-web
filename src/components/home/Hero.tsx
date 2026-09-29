@@ -1,5 +1,3 @@
-import FlightSearchWidget from "@/components/home/FlightSearchWidget";
-
 export default function Hero() {
   return (
     <section className="relative overflow-hidden">
@@ -22,7 +20,10 @@ export default function Hero() {
       </div>
 
       <div className="relative mx-auto -mt-28 max-w-4xl px-4 pb-16 sm:-mt-32">
-        <FlightSearchWidget />
+        <div id="tpwl-search" />
+      </div>
+      <div className="relative mx-auto max-w-4xl px-4 pb-16">
+        <div id="tpwl-tickets" />
       </div>
     </section>
   );
