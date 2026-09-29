@@ -1,6 +1,6 @@
-import FlightSearchWidget from "@/components/home/FlightSearchWidget";
+import Script from "next/script";
 
-export default function Hero() {
+export default function HeroWhiteLabel() {
   return (
     <section className="relative overflow-hidden">
       <div
@@ -22,8 +22,13 @@ export default function Hero() {
       </div>
 
       <div className="relative mx-auto -mt-28 max-w-4xl px-4 pb-16 sm:-mt-32">
-        <FlightSearchWidget />
+        <div id="tpwl-search" />
       </div>
+      <div className="relative mx-auto max-w-4xl px-4 pb-16">
+        <div id="tpwl-tickets" />
+      </div>
+
+      <Script src="https://tpemb.com/wl_web/main.js?wl_id=22783" type="module" strategy="afterInteractive" />
     </section>
   );
 }
