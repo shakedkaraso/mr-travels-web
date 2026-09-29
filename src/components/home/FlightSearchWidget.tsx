@@ -112,7 +112,7 @@ export default function FlightSearchWidget() {
 
         <button
           type="submit"
-          className="col-span-full flex items-center justify-center gap-[18px] rounded-xl bg-brand-pink py-2.5 text-[18px] font-semibold text-white shadow-lg shadow-brand-pink/30 transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink lg:col-span-1"
+          className="col-span-full flex items-center justify-center gap-[18px] rounded-xl bg-brand-pink px-6 py-2.5 text-[18px] font-semibold text-white shadow-lg shadow-brand-pink/30 transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink lg:col-span-1"
         >
           חיפוש טיסות
           <MagnifierIcon />
