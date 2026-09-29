@@ -3,7 +3,7 @@ import { attachPhotos } from "@/lib/destination-photos";
 import DealsFilterGrid from "@/components/home/DealsFilterGrid";
 
 export default async function Deals() {
-  const [christmasDeals, lastMinuteDeals] = await Promise.all([getHotDeals(3), getLastMinuteDeals(3)]);
+  const [christmasDeals, lastMinuteDeals] = await Promise.all([getHotDeals(9), getLastMinuteDeals(9)]);
   if (christmasDeals.length === 0 && lastMinuteDeals.length === 0) return null;
 
   const [christmasWithPhotos, lastMinuteWithPhotos] = await Promise.all([
