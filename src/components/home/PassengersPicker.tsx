@@ -112,7 +112,7 @@ export default function PassengersPicker({ onChange }: { onChange?: (counts: Pas
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="mt-4 w-full rounded-full bg-brand-pink py-2 text-sm font-bold text-white transition-transform hover:scale-[1.01]"
+            className="mt-4 w-full rounded-xl bg-brand-pink py-2 text-sm font-bold text-white transition-transform hover:scale-[1.01]"
           >
             אישור
           </button>

@@ -11,21 +11,21 @@ const VARIANT_STYLES: Record<Variant, { input: string; button: string; label: st
     input:
       "flex-1 min-w-0 rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-brand-pink",
     button:
-      "shrink-0 rounded-full bg-brand-pink px-5 py-2.5 text-sm font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
+      "shrink-0 rounded-xl bg-brand-pink px-5 py-2.5 text-sm font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
     label: "text-white/70",
   },
   popup: {
     input:
       "flex-1 min-w-0 rounded-full border border-brand-line bg-white px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-ink-soft focus:outline-none focus:ring-2 focus:ring-brand-pink",
     button:
-      "shrink-0 rounded-full bg-brand-pink px-5 py-2.5 text-sm font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink",
+      "shrink-0 rounded-xl bg-brand-pink px-5 py-2.5 text-sm font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink",
     label: "text-brand-ink-soft",
   },
   hero: {
     input:
       "flex-1 min-w-0 rounded-full border border-brand-line bg-white px-4 py-2.5 text-sm text-brand-ink placeholder:text-brand-ink-soft focus:outline-none focus:ring-2 focus:ring-brand-pink",
     button:
-      "shrink-0 rounded-full bg-brand-pink px-5 py-2.5 text-sm font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink",
+      "shrink-0 rounded-xl bg-brand-pink px-5 py-2.5 text-sm font-bold text-white transition-transform hover:scale-[1.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink",
     label: "text-brand-ink-soft",
   },
 };

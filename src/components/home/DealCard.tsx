@@ -45,7 +45,7 @@ export default function DealCard({
           href={deal.bookingUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full rounded-full bg-brand-pink py-2.5 text-center text-sm font-bold text-white transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink"
+          className="block w-full rounded-xl bg-brand-pink py-2.5 text-center text-sm font-bold text-white transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink"
         >
           הזמינו עכשיו
         </a>

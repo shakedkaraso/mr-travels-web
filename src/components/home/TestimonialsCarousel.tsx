@@ -46,22 +46,22 @@ export default function TestimonialsCarousel({ items }: { items: Testimonial[] }
         <div className="mt-4 flex justify-center gap-2">
           <button
             type="button"
-            onClick={() => scrollByCard(1)}
-            aria-label="ביקורת הבאה"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-line text-brand-ink-soft transition-colors hover:bg-brand-paper"
-          >
-            <svg viewBox="0 0 20 20" className="h-4 w-4 fill-current">
-              <path d="M12.5 5 7.5 10l5 5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <button
-            type="button"
             onClick={() => scrollByCard(-1)}
             aria-label="ביקורת קודמת"
             className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-line text-brand-ink-soft transition-colors hover:bg-brand-paper"
           >
             <svg viewBox="0 0 20 20" className="h-4 w-4 fill-current">
               <path d="M7.5 5 12.5 10l-5 5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollByCard(1)}
+            aria-label="ביקורת הבאה"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-line text-brand-ink-soft transition-colors hover:bg-brand-paper"
+          >
+            <svg viewBox="0 0 20 20" className="h-4 w-4 fill-current">
+              <path d="M12.5 5 7.5 10l5 5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
         </div>
