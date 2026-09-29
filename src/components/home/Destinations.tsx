@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getPopularDestinations, getDealsForDestination } from "@/lib/hot-deals";
+import { getPopularDestinations, getDealsForDestination, resolvePhotoQuery } from "@/lib/hot-deals";
 import { getDestinationPhoto } from "@/lib/destination-photos";
 
 const CARD_GRADIENTS = ["from-cyan-600 to-blue-800", "from-amber-500 to-orange-700", "from-rose-400 to-pink-700", "from-slate-500 to-slate-800"];
@@ -10,7 +10,10 @@ export default async function Destinations() {
 
   const destinations = await Promise.all(
     popular.map(async (dest) => {
-      const [cheapest, photo] = await Promise.all([getDealsForDestination(dest.code, 1), getDestinationPhoto(dest.nameEn)]);
+      const [cheapest, photo] = await Promise.all([
+        getDealsForDestination(dest.code, 1),
+        getDestinationPhoto(resolvePhotoQuery(dest)),
+      ]);
       return { ...dest, price: cheapest[0]?.price ?? null, photo };
     })
   );

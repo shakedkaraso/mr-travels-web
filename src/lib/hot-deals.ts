@@ -1,6 +1,20 @@
 const TRAVELPAYOUTS_MARKER = process.env.TRAVELPAYOUTS_MARKER ?? "777777";
 
-export type DestinationSpec = { code: string; name: string; nameEn: string; maxTripDuration: number };
+export type DestinationSpec = {
+  code: string;
+  name: string;
+  nameEn: string;
+  maxTripDuration: number;
+  /** Overrides what's sent to the photo search when the plain city name
+   * ("nameEn" + "daytime") doesn't pick a good result — e.g. Paris pulling
+   * a random rooftop instead of the Eiffel Tower. */
+  photoQuery?: string;
+};
+
+/** What actually gets sent to Pexels for a destination's photo. */
+export function resolvePhotoQuery(spec: Pick<DestinationSpec, "nameEn" | "photoQuery">): string {
+  return spec.photoQuery ?? `${spec.nameEn} daytime`;
+}
 
 // City codes chosen (and named in Hebrew) by us — not translated from API
 // text — so there's no risk of a wrong/guessed translation reaching the
@@ -8,7 +22,7 @@ export type DestinationSpec = { code: string; name: string; nameEn: string; maxT
 // rendered. European destinations are capped at an 8-day trip, longer-haul
 // destinations at 10 days (both per the user's request).
 export const EUROPE_DESTINATIONS: DestinationSpec[] = [
-  { code: "PAR", name: "פריז", nameEn: "Paris", maxTripDuration: 8 },
+  { code: "PAR", name: "פריז", nameEn: "Paris", maxTripDuration: 8, photoQuery: "Eiffel Tower Trocadero fountains sunset golden" },
   { code: "ROM", name: "רומא", nameEn: "Rome", maxTripDuration: 8 },
   { code: "BCN", name: "ברצלונה", nameEn: "Barcelona", maxTripDuration: 8 },
   { code: "ATH", name: "אתונה", nameEn: "Athens", maxTripDuration: 8 },
@@ -25,7 +39,7 @@ export const EUROPE_DESTINATIONS: DestinationSpec[] = [
 export const FAR_DESTINATIONS: DestinationSpec[] = [
   { code: "BKK", name: "בנגקוק", nameEn: "Bangkok", maxTripDuration: 10 },
   { code: "HKT", name: "פוקט", nameEn: "Phuket", maxTripDuration: 10 },
-  { code: "DXB", name: "דובאי", nameEn: "Dubai", maxTripDuration: 10 },
+  { code: "DXB", name: "דובאי", nameEn: "Dubai", maxTripDuration: 10, photoQuery: "Dubai Marina skyline evening" },
   { code: "ZNZ", name: "זנזיבר", nameEn: "Zanzibar", maxTripDuration: 10 },
   { code: "NYC", name: "ניו יורק", nameEn: "New York City", maxTripDuration: 10 },
 ];
@@ -150,11 +164,11 @@ async function getCheapestFare(
   return fares.reduce((cheapest, fare) => (fare.price < cheapest.price ? fare : cheapest));
 }
 
-function toDeal(fare: DateFare, hebrewName: string, nameEn: string): Deal {
+function toDeal(fare: DateFare, hebrewName: string, photoQuery: string): Deal {
   return {
     airline: toAirlineName(fare.airline),
     city: hebrewName,
-    imageQuery: nameEn,
+    imageQuery: photoQuery,
     departureLabel: formatRoundTripRange(fare.departure_at, fare.return_at),
     price: `$${Math.round(fare.price)}`,
     bookingUrl: `https://www.aviasales.com${fare.link}&marker=${TRAVELPAYOUTS_MARKER}`,
@@ -187,17 +201,17 @@ export async function getHotDeals(limit: number): Promise<Deal[]> {
 
   try {
     const perDestination = await Promise.all(
-      ALL_DESTINATIONS.map(async ({ code, name, nameEn, maxTripDuration }) => {
-        const fare = await getCheapestFare(code, maxTripDuration, token, ["2026-12"], 3600);
-        return fare ? { fare, hebrewName: name, nameEn } : null;
+      ALL_DESTINATIONS.map(async (spec) => {
+        const fare = await getCheapestFare(spec.code, spec.maxTripDuration, token, ["2026-12"], 3600);
+        return fare ? { fare, hebrewName: spec.name, photoQuery: resolvePhotoQuery(spec) } : null;
       })
     );
 
     return perDestination
-      .filter((entry): entry is { fare: DateFare; hebrewName: string; nameEn: string } => entry !== null)
+      .filter((entry): entry is { fare: DateFare; hebrewName: string; photoQuery: string } => entry !== null)
       .sort((a, b) => a.fare.price - b.fare.price)
       .slice(0, limit)
-      .map(({ fare, hebrewName, nameEn }) => toDeal(fare, hebrewName, nameEn));
+      .map(({ fare, hebrewName, photoQuery }) => toDeal(fare, hebrewName, photoQuery));
   } catch {
     return [];
   }
@@ -218,17 +232,17 @@ export async function getLastMinuteDeals(limit: number): Promise<Deal[]> {
 
   try {
     const perDestination = await Promise.all(
-      ALL_DESTINATIONS.map(async ({ code, name, nameEn }) => {
-        const fare = await getCheapestFare(code, LAST_MINUTE_MAX_TRIP_DURATION, token, months, 1800, allowedDates);
-        return fare ? { fare, hebrewName: name, nameEn } : null;
+      ALL_DESTINATIONS.map(async (spec) => {
+        const fare = await getCheapestFare(spec.code, LAST_MINUTE_MAX_TRIP_DURATION, token, months, 1800, allowedDates);
+        return fare ? { fare, hebrewName: spec.name, photoQuery: resolvePhotoQuery(spec) } : null;
       })
     );
 
     return perDestination
-      .filter((entry): entry is { fare: DateFare; hebrewName: string; nameEn: string } => entry !== null)
+      .filter((entry): entry is { fare: DateFare; hebrewName: string; photoQuery: string } => entry !== null)
       .sort((a, b) => a.fare.price - b.fare.price)
       .slice(0, limit)
-      .map(({ fare, hebrewName, nameEn }) => toDeal(fare, hebrewName, nameEn));
+      .map(({ fare, hebrewName, photoQuery }) => toDeal(fare, hebrewName, photoQuery));
   } catch {
     return [];
   }
@@ -303,7 +317,7 @@ export async function getDealsForDestination(code: string, limit: number): Promi
     return fares
       .sort((a, b) => a.price - b.price)
       .slice(0, limit)
-      .map((fare) => toDeal(fare, spec.name, spec.nameEn));
+      .map((fare) => toDeal(fare, spec.name, resolvePhotoQuery(spec)));
   } catch {
     return [];
   }
