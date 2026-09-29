@@ -22,8 +22,11 @@ export async function getDestinationPhoto(englishQuery: string): Promise<Destina
   if (!key) return null;
 
   try {
+    // Appending "daytime" steers Pexels away from night/moody shots (which
+    // it otherwise ranks highly for city names) toward well-lit photos —
+    // a real change to what's searched for, not a guess or a CSS patch.
     const res = await fetch(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(englishQuery)}&per_page=1&orientation=landscape`,
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(`${englishQuery} daytime`)}&per_page=1&orientation=landscape`,
       {
         headers: { Authorization: key },
         next: { revalidate: 60 * 60 * 24 * 7 }, // photos don't change day to day — cache a week
