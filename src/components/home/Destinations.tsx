@@ -41,6 +41,7 @@ export default async function Destinations() {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={dest.photo.url} alt={dest.name} className="absolute inset-0 h-full w-full object-cover" />
             )}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-transparent" aria-hidden="true" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" aria-hidden="true" />
             <div className="relative">
               <h3 className="text-lg font-bold text-white drop-shadow-sm">{dest.name}</h3>

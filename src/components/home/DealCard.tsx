@@ -18,8 +18,15 @@ export default function DealCard({
         className={`relative h-40 ${photo ? "" : `bg-gradient-to-br ${CARD_GRADIENTS[index % CARD_GRADIENTS.length]}`}`}
       >
         {photo && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={photo.url} alt={deal.city} className="absolute inset-0 h-full w-full object-cover" />
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photo.url}
+              alt={deal.city}
+              className="absolute inset-0 h-full w-full object-cover brightness-110 saturate-[0.92]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" aria-hidden="true" />
+          </>
         )}
         <span className="absolute top-3 inset-inline-start-3 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-brand-ink">
           {deal.airline}
