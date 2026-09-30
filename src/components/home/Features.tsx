@@ -50,7 +50,7 @@ export default function Features() {
                 <PiggyBankIcon />
               )}
             </span>
-            <h3 className="mb-1.5 font-bold text-brand-ink">{feature.title}</h3>
+            <h3 className="mb-1.5 text-[20px] font-bold text-brand-ink">{feature.title}</h3>
             <p className="text-sm leading-relaxed text-brand-ink-soft">{feature.description}</p>
           </div>
         ))}
