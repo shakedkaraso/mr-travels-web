@@ -1,6 +1,30 @@
+"use client";
+
+import { useEffect } from "react";
 import Script from "next/script";
 
+/**
+ * The Travelpayouts widget forces `document.documentElement.dir` to "ltr"
+ * on load (to match its own English UI), which flips every RTL/logical-
+ * property layout on the whole page, not just inside the widget. Pin it
+ * back to "rtl" and keep it pinned if the widget re-applies its change.
+ */
+function usePinnedRtl() {
+  useEffect(() => {
+    const html = document.documentElement;
+    const enforce = () => {
+      if (html.getAttribute("dir") !== "rtl") html.setAttribute("dir", "rtl");
+    };
+    enforce();
+    const observer = new MutationObserver(enforce);
+    observer.observe(html, { attributes: true, attributeFilter: ["dir"] });
+    return () => observer.disconnect();
+  }, []);
+}
+
 export default function HeroWhiteLabel() {
+  usePinnedRtl();
+
   return (
     <section className="relative overflow-hidden">
       <div
