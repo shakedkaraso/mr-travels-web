@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
+import LaunchMarquee from "@/components/layout/LaunchMarquee";
 import VisualEditorBoot from "@/components/dev/VisualEditorBoot";
 
 const rubik = Rubik({
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="he" dir="rtl" className={`${rubik.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
+        <LaunchMarquee />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

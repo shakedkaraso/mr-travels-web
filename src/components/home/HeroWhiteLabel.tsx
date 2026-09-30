@@ -2,28 +2,33 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
+import { useTravelpayoutsRtl } from "@/components/home/useTravelpayoutsRtl";
 
 /**
- * The Travelpayouts widget forces `document.documentElement.dir` to "ltr"
- * on load (to match its own English UI), which flips every RTL/logical-
- * property layout on the whole page, not just inside the widget. Pin it
- * back to "rtl" and keep it pinned if the widget re-applies its change.
+ * The widget renders flight results into whatever container is on the
+ * CURRENT page, updating the URL with a `flightSearch` param but never
+ * navigating anywhere itself. Cramming those results into this Hero
+ * section (which has a fixed-height background image) breaks the
+ * layout badly. Instead: as soon as a search happens here, send the
+ * visitor to the dedicated /home-page2/results page, carrying the same
+ * query — that page reads it on load and renders the same results,
+ * with room to actually display them.
  */
-function usePinnedRtl() {
+function useRedirectSearchToResultsPage() {
   useEffect(() => {
-    const html = document.documentElement;
-    const enforce = () => {
-      if (html.getAttribute("dir") !== "rtl") html.setAttribute("dir", "rtl");
-    };
-    enforce();
-    const observer = new MutationObserver(enforce);
-    observer.observe(html, { attributes: true, attributeFilter: ["dir"] });
-    return () => observer.disconnect();
+    const interval = setInterval(() => {
+      if (window.location.search.includes("flightSearch=")) {
+        clearInterval(interval);
+        window.location.assign(`/home-page2/results${window.location.search}`);
+      }
+    }, 250);
+    return () => clearInterval(interval);
   }, []);
 }
 
 export default function HeroWhiteLabel() {
-  usePinnedRtl();
+  useTravelpayoutsRtl();
+  useRedirectSearchToResultsPage();
 
   return (
     <section className="relative overflow-hidden">
@@ -47,9 +52,6 @@ export default function HeroWhiteLabel() {
 
       <div className="relative mx-auto -mt-28 max-w-4xl px-4 pb-16 sm:-mt-32">
         <div id="tpwl-search" />
-      </div>
-      <div className="relative mx-auto max-w-4xl px-4 pb-16">
-        <div id="tpwl-tickets" />
       </div>
 
       <Script src="https://tpemb.com/wl_web/main.js?wl_id=22783" type="module" strategy="afterInteractive" />
