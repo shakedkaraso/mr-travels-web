@@ -1,27 +1,38 @@
 import PiggyBankIcon from "@/components/home/PiggyBankIcon";
+import ChatIcon from "@/components/home/ChatIcon";
 
 const FEATURES = [
   {
     title: "מחירים משתלמים",
     description: "אנו עושים את כל המאמצים כדי למצוא לכם את הטיסות הכי זולות ומשתלמות.",
-    icon: null,
+    icon: <PiggyBankIcon />,
+    big: true,
   },
   {
     title: "שירות מקצועי ואישי",
     description: "נציג אנושי זמין לעזור לכם בכל עת שתרצו.",
-    icon: (
-      <path d="M12 3a7 7 0 0 0-7 7v4a2 2 0 0 0 2 2h1v-6H6v-1a6 6 0 0 1 12 0v1h-2v6h1a2 2 0 0 0 2-2v-4a7 7 0 0 0-7-7Z" />
-    ),
+    icon: <ChatIcon />,
+    big: true,
   },
   {
     title: "Flexible Booking",
     description: "Easy cancellations and rescheduling for peace of mind.",
-    icon: <path d="M12 4a8 8 0 1 0 8 8h-2a6 6 0 1 1-6-6V3l4 3-4 3V4Z" />,
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
+        <path d="M12 4a8 8 0 1 0 8 8h-2a6 6 0 1 1-6-6V3l4 3-4 3V4Z" />
+      </svg>
+    ),
+    big: false,
   },
   {
     title: "Handpicked",
     description: "Every package is vetted by our expert travel curators.",
-    icon: <path d="M12 2 9.3 8.6 2 9.3l5.6 4.7L5.8 21 12 17l6.2 4-1.8-7 5.6-4.7-7.3-.7L12 2Z" />,
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
+        <path d="M12 2 9.3 8.6 2 9.3l5.6 4.7L5.8 21 12 17l6.2 4-1.8-7 5.6-4.7-7.3-.7L12 2Z" />
+      </svg>
+    ),
+    big: false,
   },
 ];
 
@@ -39,16 +50,10 @@ export default function Features() {
           >
             <span
               className={`mx-auto mb-4 flex items-center justify-center rounded-full bg-brand-pink-tint text-brand-pink ${
-                feature.icon ? "h-12 w-12" : "h-20 w-20"
+                feature.big ? "h-20 w-20" : "h-12 w-12"
               }`}
             >
-              {feature.icon ? (
-                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
-                  {feature.icon}
-                </svg>
-              ) : (
-                <PiggyBankIcon />
-              )}
+              {feature.icon}
             </span>
             <h3 className="mb-1.5 text-[20px] font-bold text-brand-ink">{feature.title}</h3>
             <p className="text-sm leading-relaxed text-brand-ink-soft">{feature.description}</p>
