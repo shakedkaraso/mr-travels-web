@@ -19,7 +19,8 @@ function useRedirectSearchToResultsPage() {
     const interval = setInterval(() => {
       if (window.location.search.includes("flightSearch=")) {
         clearInterval(interval);
-        window.location.assign(`/home-page2/results${window.location.search}`);
+        const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+        window.location.assign(`${basePath}/home-page2/results${window.location.search}`);
       }
     }, 250);
     return () => clearInterval(interval);
