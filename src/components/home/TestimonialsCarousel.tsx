@@ -25,7 +25,7 @@ export default function TestimonialsCarousel({ items }: { items: Testimonial[] }
           <figure
             key={item.author}
             data-card
-            className="w-72 shrink-0 snap-start rounded-2xl border border-brand-line bg-brand-paper p-6"
+            className="w-[calc(50%-10px)] min-w-[30vh] shrink-0 snap-start rounded-2xl border border-brand-line bg-brand-paper p-6"
           >
             <div className="mb-3 flex gap-0.5 text-brand-pink" aria-hidden="true">
               {Array.from({ length: 5 }).map((_, i) => (

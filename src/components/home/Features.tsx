@@ -1,5 +1,6 @@
 import PiggyBankIcon from "@/components/home/PiggyBankIcon";
 import ChatIcon from "@/components/home/ChatIcon";
+import AiChipIcon from "@/components/home/AiChipIcon";
 
 const FEATURES = [
   {
@@ -15,14 +16,10 @@ const FEATURES = [
     big: true,
   },
   {
-    title: "Flexible Booking",
-    description: "Easy cancellations and rescheduling for peace of mind.",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
-        <path d="M12 4a8 8 0 1 0 8 8h-2a6 6 0 1 1-6-6V3l4 3-4 3V4Z" />
-      </svg>
-    ),
-    big: false,
+    title: "AI צ'אט",
+    description: "תוכלו לתכנן מסלול, להתייעץ ולשאול כל דבר שתרצו על היעד שלכם",
+    icon: <AiChipIcon />,
+    big: true,
   },
   {
     title: "Handpicked",
