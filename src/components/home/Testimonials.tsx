@@ -3,16 +3,19 @@ import BadgeIcon from "@/components/home/BadgeIcon";
 
 const TESTIMONIALS: Testimonial[] = [
   {
-    quote:
-      "The most seamless booking experience I've ever had. Santorini was a dream, and everything from the flights to the hotel was perfectly curated.",
-    author: "Sarah Jenkins",
-    meta: "Verified Explorer",
+    quote: "אחלה מחירים לטיסות, אין על מר טרוולס",
+    author: "דורין א.",
+    meta: "לקוח מאומת",
   },
   {
-    quote:
-      "Excellent 24/7 support. Our flight was delayed in Tokyo and the team handled our rebooking before we even landed. Truly professional.",
-    author: "Mark Thompson",
-    meta: "Frequent Flyer",
+    quote: "אתר נח וקל, שירות מעולה",
+    author: "אורי ב.",
+    meta: "לקוח מאומת",
+  },
+  {
+    quote: "מר טרוולס מנוע חיפוש סופר יעיל, דילים טובים",
+    author: "מתן ק.",
+    meta: "לקוח מאומת",
   },
 ];
 

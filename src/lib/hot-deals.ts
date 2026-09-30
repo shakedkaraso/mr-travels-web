@@ -24,7 +24,7 @@ export function resolvePhotoQuery(spec: Pick<DestinationSpec, "nameEn" | "photoQ
 export const EUROPE_DESTINATIONS: DestinationSpec[] = [
   { code: "PAR", name: "פריז", nameEn: "Paris", maxTripDuration: 8, photoQuery: "Eiffel Tower Trocadero fountains sunset golden" },
   { code: "ROM", name: "רומא", nameEn: "Rome", maxTripDuration: 8 },
-  { code: "BCN", name: "ברצלונה", nameEn: "Barcelona", maxTripDuration: 8 },
+  { code: "BCN", name: "ברצלונה", nameEn: "Barcelona", maxTripDuration: 8, photoQuery: "Barcelona skyline sunset" },
   { code: "ATH", name: "אתונה", nameEn: "Athens", maxTripDuration: 8 },
   { code: "MIL", name: "מילאנו", nameEn: "Milan", maxTripDuration: 8 },
   { code: "AMS", name: "אמסטרדם", nameEn: "Amsterdam", maxTripDuration: 8 },
