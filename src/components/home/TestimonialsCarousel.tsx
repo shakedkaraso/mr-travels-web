@@ -21,9 +21,9 @@ export default function TestimonialsCarousel({ items }: { items: Testimonial[] }
         ref={trackRef}
         className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {items.map((item) => (
+        {items.map((item, i) => (
           <figure
-            key={item.author}
+            key={`${item.author}-${i}`}
             data-card
             className="w-[calc(50%-10px)] min-w-[30vh] shrink-0 snap-start rounded-2xl border border-brand-line bg-brand-paper p-6"
           >

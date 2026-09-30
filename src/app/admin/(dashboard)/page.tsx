@@ -2,15 +2,17 @@ import { createClient } from "@/lib/supabase/server";
 
 async function getCounts() {
   const supabase = await createClient();
-  const [posts, pages, leads, clicks] = await Promise.all([
+  const [posts, pages, reviews, leads, clicks] = await Promise.all([
     supabase.from("posts").select("*", { count: "exact", head: true }),
     supabase.from("pages").select("*", { count: "exact", head: true }),
+    supabase.from("reviews").select("*", { count: "exact", head: true }),
     supabase.from("leads").select("*", { count: "exact", head: true }),
     supabase.from("link_clicks").select("*", { count: "exact", head: true }),
   ]);
   return {
     posts: posts.count ?? 0,
     pages: pages.count ?? 0,
+    reviews: reviews.count ?? 0,
     leads: leads.count ?? 0,
     clicks: clicks.count ?? 0,
   };
@@ -22,6 +24,7 @@ export default async function AdminOverviewPage() {
   const cards = [
     { label: "מאמרים", value: counts.posts, href: "/admin/posts" },
     { label: "עמודים", value: counts.pages, href: "/admin/pages" },
+    { label: "ביקורות", value: counts.reviews, href: "/admin/reviews" },
     { label: "לידים", value: counts.leads, href: "/admin/leads" },
     { label: "קליקים על קישורי טיסות", value: counts.clicks, href: null },
   ];

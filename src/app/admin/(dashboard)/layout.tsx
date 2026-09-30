@@ -7,6 +7,7 @@ const NAV = [
   { href: "/admin", label: "סקירה כללית" },
   { href: "/admin/posts", label: "מאמרים" },
   { href: "/admin/pages", label: "עמודים" },
+  { href: "/admin/reviews", label: "ביקורות" },
   { href: "/admin/leads", label: "לידים" },
 ];
 
