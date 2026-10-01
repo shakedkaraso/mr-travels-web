@@ -82,7 +82,7 @@ function GlobePlaneIcon({ className }: { className?: string }) {
 export default function Features() {
   return (
     <section className="relative isolate overflow-hidden py-16 sm:py-20">
-      <GlobePlaneIcon className="pointer-events-none absolute bottom-0 right-0 aspect-square w-1/3 min-w-[240px] -z-10 translate-x-1/2 translate-y-1/2 text-brand-ink/25" />
+      <GlobePlaneIcon className="pointer-events-none absolute bottom-0 right-0 aspect-square w-1/3 min-w-[240px] -z-10 translate-x-[20%] translate-y-[20%] text-brand-ink/10" />
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="mb-10 text-center text-[42px] font-extrabold text-brand-dark">
           דואגים לך להכל
