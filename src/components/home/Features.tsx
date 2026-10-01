@@ -81,28 +81,30 @@ function GlobePlaneIcon({ className }: { className?: string }) {
 
 export default function Features() {
   return (
-    <section className="relative isolate mx-auto max-w-7xl overflow-hidden px-6 py-16 sm:py-20">
+    <section className="relative isolate overflow-hidden py-16 sm:py-20">
       <GlobePlaneIcon className="pointer-events-none absolute bottom-0 right-0 aspect-square w-1/4 min-w-[180px] -z-10 translate-x-1/2 translate-y-1/2 text-brand-ink/10" />
-      <h2 className="mb-10 text-center text-[42px] font-extrabold text-brand-dark">
-        דואגים לך להכל
-      </h2>
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {FEATURES.map((feature) => (
-          <div
-            key={feature.title}
-            className="rounded-2xl border border-brand-line bg-white p-6 text-center shadow-sm"
-          >
-            <span
-              className={`mx-auto mb-4 flex items-center justify-center rounded-full bg-brand-pink-tint text-brand-pink ${
-                feature.big ? "h-20 w-20" : "h-12 w-12"
-              }`}
+      <div className="mx-auto max-w-7xl px-6">
+        <h2 className="mb-10 text-center text-[42px] font-extrabold text-brand-dark">
+          דואגים לך להכל
+        </h2>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {FEATURES.map((feature) => (
+            <div
+              key={feature.title}
+              className="rounded-2xl border border-brand-line bg-white p-6 text-center shadow-sm"
             >
-              {feature.icon}
-            </span>
-            <h3 className="mb-1.5 text-[20px] font-bold text-brand-ink">{feature.title}</h3>
-            <p className="text-sm leading-relaxed text-brand-ink-soft">{feature.description}</p>
-          </div>
-        ))}
+              <span
+                className={`mx-auto mb-4 flex items-center justify-center rounded-full bg-brand-pink-tint text-brand-pink ${
+                  feature.big ? "h-20 w-20" : "h-12 w-12"
+                }`}
+              >
+                {feature.icon}
+              </span>
+              <h3 className="mb-1.5 text-[20px] font-bold text-brand-ink">{feature.title}</h3>
+              <p className="text-sm leading-relaxed text-brand-ink-soft">{feature.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
