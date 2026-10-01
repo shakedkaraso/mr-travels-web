@@ -25,7 +25,9 @@ export default function Hero() {
           }`}
           style={{ backgroundImage: `url('${basePath}${src}')` }}
           aria-hidden="true"
-        />
+        >
+          {src.includes("vegas") && <div className="absolute inset-0 bg-white/25" />}
+        </div>
       ))}
       <div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/45 via-black/10 to-black/25" aria-hidden="true" />
 
@@ -35,7 +37,7 @@ export default function Hero() {
           <br />
           <span className="text-brand-dark">תכינו מזוודות</span>
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-base text-white/90 drop-shadow-sm sm:text-lg">
+        <p className="mx-auto mt-4 max-w-xl text-[24px] text-white/90 drop-shadow-sm">
           מנוע החיפוש שלנו ימצא לך את הטיסות ליעדים הכי שווים בעולם!
         </p>
       </div>
