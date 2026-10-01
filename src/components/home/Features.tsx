@@ -11,7 +11,7 @@ const FEATURES = [
     title: "שירות מקצועי ואישי",
     description: "נציג אנושי זמין לעזור לכם בכל עת שתרצו.",
     icon: (
-      <svg viewBox="0 0 24 24" className="h-10 w-10 fill-current" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current" aria-hidden="true">
         <path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4v-4H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z" />
         <circle cx="8" cy="10.5" r="1.2" className="fill-white" />
         <circle cx="12" cy="10.5" r="1.2" className="fill-white" />
@@ -26,7 +26,7 @@ const FEATURES = [
     icon: (
       <svg
         viewBox="0 0 24 24"
-        className="h-10 w-10"
+        className="h-7 w-7"
         aria-hidden="true"
         fill="none"
         stroke="currentColor"
