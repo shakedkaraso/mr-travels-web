@@ -36,9 +36,11 @@ export default function DealsFilterGrid({
       {deals.length === 0 ? (
         <p className="text-brand-ink-soft">לא נמצאו דילים בקטגוריה הזו כרגע.</p>
       ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-3">
           {deals.map((deal, index) => (
-            <DealCard key={deal.bookingUrl} deal={deal} index={index} photo={deal.photo} />
+            <div key={deal.bookingUrl} className="w-full shrink-0 snap-center sm:w-auto sm:shrink sm:snap-none">
+              <DealCard deal={deal} index={index} photo={deal.photo} />
+            </div>
           ))}
         </div>
       )}
