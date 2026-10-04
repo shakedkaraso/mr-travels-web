@@ -218,13 +218,24 @@ export async function getHotDeals(limit: number): Promise<Deal[]> {
 }
 
 const LAST_MINUTE_MAX_TRIP_DURATION = 7;
-const LAST_MINUTE_WINDOW_DAYS = 2;
+// A 2-day window only ever surfaces 1-2 destinations under the price cap
+// (direct, sub-$250 fares from TLV just aren't available to most of our
+// destinations on any given pair of days) — 14 days still reads as "last
+// minute" next to the December-dated getHotDeals, while actually having
+// enough inventory to fill a 9-card grid.
+const LAST_MINUTE_WINDOW_DAYS = 14;
 // "דקה ה-90" is supposed to feel like a steal — filter out anything above
 // this before ranking, rather than just taking the cheapest N regardless
 // of how high that ends up being.
 const LAST_MINUTE_MAX_PRICE = 250;
+// Only ~4-6 destinations ever qualify under the price cap even across the
+// full window, so one deal per destination caps out well short of a 9-card
+// grid. Taking a few of each destination's cheapest dates (still real,
+// distinct fares) fills the grid without needing more qualifying cities
+// than actually exist.
+const LAST_MINUTE_MAX_PER_DESTINATION = 4;
 
-/** "דקה ה-90" — real direct round-trips departing in the next two days,
+/** "דקה ה-90" — real direct round-trips departing in the next two weeks,
  * capped at a 7-day trip, across the same destination list as getHotDeals.
  * Same fallback behavior: empty list rather than fabricated deals. */
 export async function getLastMinuteDeals(limit: number): Promise<Deal[]> {
@@ -237,14 +248,20 @@ export async function getLastMinuteDeals(limit: number): Promise<Deal[]> {
   try {
     const perDestination = await Promise.all(
       ALL_DESTINATIONS.map(async (spec) => {
-        const fare = await getCheapestFare(spec.code, LAST_MINUTE_MAX_TRIP_DURATION, token, months, 1800, allowedDates);
-        return fare ? { fare, hebrewName: spec.name, photoQuery: resolvePhotoQuery(spec) } : null;
+        const perMonth = await Promise.all(
+          months.map((month) => fetchGroupedPrices(spec.code, month, LAST_MINUTE_MAX_TRIP_DURATION, token, 1800))
+        );
+        const fares = perMonth
+          .flat()
+          .filter((fare) => allowedDates.has(fare.departure_at.slice(0, 10)) && fare.price <= LAST_MINUTE_MAX_PRICE)
+          .sort((a, b) => a.price - b.price)
+          .slice(0, LAST_MINUTE_MAX_PER_DESTINATION);
+        return fares.map((fare) => ({ fare, hebrewName: spec.name, photoQuery: resolvePhotoQuery(spec) }));
       })
     );
 
     return perDestination
-      .filter((entry): entry is { fare: DateFare; hebrewName: string; photoQuery: string } => entry !== null)
-      .filter((entry) => entry.fare.price <= LAST_MINUTE_MAX_PRICE)
+      .flat()
       .sort((a, b) => a.fare.price - b.fare.price)
       .slice(0, limit)
       .map(({ fare, hebrewName, photoQuery }) => toDeal(fare, hebrewName, photoQuery));
