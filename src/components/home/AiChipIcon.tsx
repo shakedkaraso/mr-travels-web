@@ -3,15 +3,19 @@
 import { useRef } from "react";
 import { Lottie, type LottieHandle } from "lottie-react";
 import aiChipAnimation from "@/lottie/ai-chip.json";
-import { useLottieWatchdog } from "@/components/home/useLottieWatchdog";
 
 export default function AiChipIcon() {
   const lottieRef = useRef<LottieHandle>(null);
-  useLottieWatchdog(lottieRef, { allowRestAtEnd: true });
 
   return (
     <span className="h-[60px] w-[60px]">
-      <Lottie src={aiChipAnimation} loop={false} autoplay lottieRef={lottieRef} className="h-full w-full" />
+      <Lottie
+        src={aiChipAnimation}
+        autoplay
+        lottieRef={lottieRef}
+        subscriptions={{ complete: () => lottieRef.current?.play() }}
+        className="h-full w-full"
+      />
     </span>
   );
 }
