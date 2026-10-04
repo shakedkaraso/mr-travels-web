@@ -30,7 +30,7 @@ export default function FlightResultsPage() {
       </section>
 
       <div className="relative isolate overflow-hidden bg-[#f8f9fa]">
-        <MagnifyingGlassIcon className="pointer-events-none absolute top-0 left-0 aspect-square w-1/3 min-w-[240px] -z-10 -translate-y-1/2 text-brand-ink/5" />
+        <MagnifyingGlassIcon className="pointer-events-none absolute top-0 left-0 aspect-square w-1/3 min-w-[240px] -z-10 -translate-y-1/4 text-brand-ink/5" />
         <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
           <div id="tpwl-search" className="mb-8" />
           <div id="tpwl-tickets" />
