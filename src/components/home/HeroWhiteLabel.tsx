@@ -46,7 +46,7 @@ export default function HeroWhiteLabel() {
           <br />
           <span className="text-brand-dark">תכינו מזוודות</span>
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-base text-white/90 drop-shadow-sm sm:text-lg">
+        <p className="mx-auto mt-4 max-w-full text-base text-white/90 drop-shadow-sm sm:whitespace-nowrap sm:text-[24px]">
           מנוע החיפוש שלנו ימצא לך את הטיסות ליעדים הכי שווים בעולם!
         </p>
       </div>
