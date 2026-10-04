@@ -1,4 +1,4 @@
-const MESSAGE = "האתר שלנו בהרצה, נשמח לביקורות :)";
+const MESSAGE = "האתר שלנו בהרצה, נשמח לפידבקים והמלצות :)";
 
 export default function LaunchMarquee() {
   return (

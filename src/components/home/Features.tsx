@@ -17,7 +17,7 @@ const FEATURES = [
   },
   {
     title: "AI צ'אט",
-    description: "תוכלו לתכנן מסלול, להתייעץ ולשאול כל דבר שתרצו על היעד שלכם",
+    description: "תוכלו לתכנן מסלול, להתייעץ ולשאול כל דבר שתרצו על היעד שלכם.",
     icon: <AiChipIcon />,
     big: true,
   },

@@ -1,5 +1,6 @@
 import type { Deal } from "@/lib/hot-deals";
 import type { DestinationPhoto } from "@/lib/destination-photos";
+import ExternalBookingLink from "@/components/home/ExternalBookingLink";
 
 const CARD_GRADIENTS = ["from-sky-400 to-blue-600", "from-indigo-500 to-purple-700", "from-emerald-500 to-teal-700"];
 
@@ -48,14 +49,12 @@ export default function DealCard({
           </div>
           <span className="whitespace-nowrap text-lg font-extrabold text-brand-pink">{deal.price}</span>
         </div>
-        <a
+        <ExternalBookingLink
           href={deal.bookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
           className="mx-auto block w-[75%] rounded-xl bg-brand-pink py-1.5 text-center text-sm font-semibold text-white transition-transform hover:scale-[1.01] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-pink"
         >
           הזמינו עכשיו
-        </a>
+        </ExternalBookingLink>
       </div>
     </article>
   );
