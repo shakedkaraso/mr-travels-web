@@ -38,7 +38,7 @@ export default function Features() {
     <section className="relative isolate overflow-hidden py-16 sm:py-20">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/images/globe-watermark.jpg"
+        src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/globe-watermark.jpg`}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute bottom-0 right-0 aspect-square w-1/3 min-w-[240px] -z-10 translate-x-[20%] translate-y-[20%] object-contain"
