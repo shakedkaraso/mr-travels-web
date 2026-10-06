@@ -22,11 +22,11 @@ const FEATURES = [
     big: true,
   },
   {
-    title: "Handpicked",
-    description: "Every package is vetted by our expert travel curators.",
+    title: "רק טיסות ישירות",
+    description: "אנחנו מתמקדים בטיסות ישירות מתל אביב, כך שתגיעו ליעד הכי מהר ובלי עצירות מיותרות.",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
-        <path d="M12 2 9.3 8.6 2 9.3l5.6 4.7L5.8 21 12 17l6.2 4-1.8-7 5.6-4.7-7.3-.7L12 2Z" />
+        <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5l8 2.5Z" />
       </svg>
     ),
     big: false,
