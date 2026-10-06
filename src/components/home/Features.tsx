@@ -33,36 +33,16 @@ const FEATURES = [
   },
 ];
 
-function GlobePlaneIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 120 120" className={className} aria-hidden="true">
-      <circle cx="60" cy="68" r="40" stroke="currentColor" strokeWidth="3" fill="none" />
-      <path
-        d="M28 50c6-4 10 4 16 2s8-10 16-6 10 10 18 6"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path d="M24 78c8 10 20 14 30 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path d="M70 92c10-2 18-10 22-20" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path
-        d="M20 46 48 34l6-14 4 2-3 14 18 6 1 5-19-2-9 16-5-1 4-17-18-6z"
-        fill="currentColor"
-        stroke="none"
-      />
-      <path d="M88 20c8 0 15 3 20 9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path d="M100 10c10 1 18 6 23 14" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path d="M10 92c2 8 7 14 14 18" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" />
-      <path d="M22 104c4 4 9 6 14 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" />
-    </svg>
-  );
-}
-
 export default function Features() {
   return (
     <section className="relative isolate overflow-hidden py-16 sm:py-20">
-      <GlobePlaneIcon className="pointer-events-none absolute bottom-0 right-0 aspect-square w-1/3 min-w-[240px] -z-10 translate-x-[20%] translate-y-[20%] text-brand-ink/10" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/globe-watermark.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 right-0 aspect-square w-1/3 min-w-[240px] -z-10 translate-x-[20%] translate-y-[20%] object-contain"
+      />
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="mb-10 text-center text-[42px] font-extrabold text-brand-dark">
           דואגים לך להכל
