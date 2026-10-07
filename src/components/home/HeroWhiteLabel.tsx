@@ -1,35 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
 import Script from "next/script";
 import { useTravelpayoutsRtl } from "@/components/home/useTravelpayoutsRtl";
 
-/**
- * The widget renders flight results into whatever container is on the
- * CURRENT page, updating the URL with a `flightSearch` param but never
- * navigating anywhere itself. Cramming those results into this Hero
- * section (which has a fixed-height background image) breaks the
- * layout badly. Instead: as soon as a search happens here, send the
- * visitor to the dedicated /home-page2/results page, carrying the same
- * query — that page reads it on load and renders the same results,
- * with room to actually display them.
- */
-function useRedirectSearchToResultsPage() {
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (window.location.search.includes("flightSearch=")) {
-        clearInterval(interval);
-        const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-        window.location.assign(`${basePath}/home-page2/results${window.location.search}`);
-      }
-    }, 250);
-    return () => clearInterval(interval);
-  }, []);
-}
-
 export default function HeroWhiteLabel() {
   useTravelpayoutsRtl();
-  useRedirectSearchToResultsPage();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   return (
     <section className="relative overflow-hidden">
@@ -55,7 +31,24 @@ export default function HeroWhiteLabel() {
         <div id="tpwl-search" />
       </div>
 
-      <Script src="https://tpemb.com/wl_web/main.js?wl_id=22783" type="module" strategy="afterInteractive" />
+      {/* Official Travelpayouts snippet (config set before the script loads,
+          exactly as their own embed code does it) rather than the ad-hoc
+          polling redirect this used to do - lets the widget navigate to
+          the results page itself instead of us reverse-engineering its
+          flightSearch query param. */}
+      <Script id="tpwl-config" strategy="afterInteractive">
+        {`
+          window.TPWL_CONFIGURATION = {
+            ...window.TPWL_CONFIGURATION,
+            resultsURL: "${basePath}/home-page2/results",
+          };
+          var script = document.createElement("script");
+          script.async = 1;
+          script.type = "module";
+          script.src = "https://tpemb.com/wl_web/main.js?wl_id=22783";
+          document.head.appendChild(script);
+        `}
+      </Script>
     </section>
   );
 }

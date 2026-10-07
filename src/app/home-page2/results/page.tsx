@@ -7,6 +7,7 @@ import MagnifyingGlassIcon from "@/components/icons/MagnifyingGlassIcon";
 
 export default function FlightResultsPage() {
   useTravelpayoutsRtl();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   return (
     <>
@@ -35,7 +36,19 @@ export default function FlightResultsPage() {
           <div id="tpwl-search" className="mb-8" />
           <div id="tpwl-tickets" />
 
-          <Script src="https://tpemb.com/wl_web/main.js?wl_id=22783" type="module" strategy="afterInteractive" />
+          <Script id="tpwl-config" strategy="afterInteractive">
+            {`
+              window.TPWL_CONFIGURATION = {
+                ...window.TPWL_CONFIGURATION,
+                resultsURL: "${basePath}/home-page2/results",
+              };
+              var script = document.createElement("script");
+              script.async = 1;
+              script.type = "module";
+              script.src = "https://tpemb.com/wl_web/main.js?wl_id=22783";
+              document.head.appendChild(script);
+            `}
+          </Script>
         </div>
       </div>
     </>
