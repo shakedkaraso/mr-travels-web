@@ -1,63 +1,41 @@
 import PiggyBankIcon from "@/components/home/PiggyBankIcon";
 import ChatIcon from "@/components/home/ChatIcon";
 import AiChipIcon from "@/components/home/AiChipIcon";
+import GlobeWatermark from "@/components/home/GlobeWatermark";
 
 const FEATURES = [
   {
     title: "מחירים משתלמים",
     description: "אנו עושים את כל המאמצים כדי למצוא לכם את הטיסות הכי זולות ומשתלמות.",
     icon: <PiggyBankIcon />,
-    big: true,
   },
   {
     title: "שירות מקצועי ואישי",
     description: "נציג אנושי זמין לעזור לכם בכל עת שתרצו.",
     icon: <ChatIcon />,
-    big: true,
   },
   {
-    title: "AI צ'אט",
+    title: "AI צ'אט (בקרוב)",
     description: "תוכלו לתכנן מסלול, להתייעץ ולשאול כל דבר שתרצו על היעד שלכם.",
     icon: <AiChipIcon />,
-    big: true,
-  },
-  {
-    title: "דילים מתעדכנים בזמן אמת",
-    description: "אנחנו שואבים מחירים ישירות מחברות התעופה בזמן אמת, כך שתמיד תראו את הדילים הכי עדכניים והכי משתלמים.",
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden="true">
-        <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z" />
-      </svg>
-    ),
-    big: false,
   },
 ];
 
 export default function Features() {
   return (
     <section className="relative isolate overflow-hidden py-16 sm:py-20">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/globe-watermark.jpg`}
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-0 aspect-square w-1/3 min-w-[240px] -z-10 translate-x-[20%] translate-y-[20%] object-contain"
-      />
+      <GlobeWatermark className="absolute bottom-0 right-0 aspect-square w-1/3 min-w-[240px] -z-10 translate-x-[20%] translate-y-[20%]" />
       <div className="mx-auto max-w-7xl px-6">
         <h2 className="mb-10 text-center text-[42px] font-extrabold text-brand-dark">
           דואגים לך להכל
         </h2>
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           {FEATURES.map((feature) => (
             <div
               key={feature.title}
               className="rounded-2xl border border-brand-line bg-white p-6 text-center shadow-sm"
             >
-              <span
-                className={`mx-auto mb-4 flex items-center justify-center rounded-full bg-brand-pink-tint text-brand-pink ${
-                  feature.big ? "h-20 w-20" : "h-12 w-12"
-                }`}
-              >
+              <span className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-brand-pink-tint text-brand-pink">
                 {feature.icon}
               </span>
               <h3 className="mb-1.5 text-[20px] font-bold text-brand-ink">{feature.title}</h3>
