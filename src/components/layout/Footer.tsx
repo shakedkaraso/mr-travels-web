@@ -5,12 +5,10 @@ import SocialLinks from "@/components/layout/SocialLinks";
 
 const EXPLORE_LINKS = [
   { href: "/destinations", label: "יעדים" },
-  { href: "/flights", label: "חיפוש טיסות" },
+  { href: "/", label: "חיפוש טיסות" },
 ];
 
 const COMPANY_LINKS = [
-  { href: "/about", label: "אודותינו" },
-  { href: "/cookie-policy", label: "מדיניות עוגיות" },
   { href: "/privacy", label: "מדיניות פרטיות" },
   { href: "/terms", label: "תנאי שימוש" },
   // Not present in the Figma file — kept because it's a legal requirement (Israeli standard ת"י 5568).

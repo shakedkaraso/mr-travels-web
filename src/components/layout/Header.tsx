@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SocialLinks from "@/components/layout/SocialLinks";
 
-const NAV_LINKS = [{ href: "/flights", label: "חיפוש טיסות" }];
+const NAV_LINKS = [{ href: "/", label: "חיפוש טיסות" }];
 
 export default function Header() {
   return (

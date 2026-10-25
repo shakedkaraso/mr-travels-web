@@ -40,7 +40,7 @@ export default function HeroWhiteLabel() {
         {`
           window.TPWL_CONFIGURATION = {
             ...window.TPWL_CONFIGURATION,
-            resultsURL: "${basePath}/home-page2/results",
+            resultsURL: "${basePath}/results",
           };
           var script = document.createElement("script");
           script.async = 1;
