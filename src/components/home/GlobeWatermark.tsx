@@ -37,7 +37,7 @@ export default function GlobeWatermark({ className }: { className?: string }) {
         src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/globe-watermark.jpg`}
         alt=""
         aria-hidden="true"
-        className="h-full w-full object-contain will-change-transform"
+        className="h-full w-full object-contain opacity-25 will-change-transform"
       />
     </div>
   );
