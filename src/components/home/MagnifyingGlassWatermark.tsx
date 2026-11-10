@@ -2,9 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 
-/** Fades and slides in once scrolled into view, instead of just appearing. */
+/**
+ * Background magnifying glass, mirrored left-to-right. Once scrolled into
+ * view it slides in from the side and sways briefly, like it's searching,
+ * then settles (see `magnifier-enter` in globals.css).
+ *
+ * Positioning (`className`) goes on the wrapper so the entrance animation
+ * on the image can't clobber the caller's translate/position utilities.
+ */
 export default function MagnifyingGlassWatermark({ className }: { className?: string }) {
-  const ref = useRef<HTMLImageElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -24,15 +31,15 @@ export default function MagnifyingGlassWatermark({ className }: { className?: st
   }, []);
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      ref={ref}
-      src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/magnifying-glass-watermark.webp`}
-      alt=""
-      aria-hidden="true"
-      className={`pointer-events-none object-contain transition-all duration-1000 ease-out ${
-        visible ? "translate-x-0 opacity-25" : "-translate-x-10 opacity-0"
-      } ${className ?? ""}`}
-    />
+    <div ref={ref} aria-hidden="true" className={`pointer-events-none ${className ?? ""}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/images/magnifying-glass-watermark.webp`}
+        alt=""
+        className={`h-full w-full -scale-x-100 object-contain ${
+          visible ? "magnifier-enter" : "opacity-0"
+        }`}
+      />
+    </div>
   );
 }

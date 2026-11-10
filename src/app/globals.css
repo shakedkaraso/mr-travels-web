@@ -62,3 +62,43 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* Background magnifying glass (MagnifyingGlassWatermark): slides in from
+   the left, sways like it's searching, then settles at 25% opacity. Uses
+   the individual `translate`/`rotate` properties so it composes with the
+   image's `-scale-x-100` mirror instead of overwriting it. */
+@keyframes magnifier-enter {
+  0% {
+    opacity: 0;
+    translate: -40% 0;
+    rotate: -18deg;
+  }
+  55% {
+    opacity: 0.25;
+    translate: 4% 0;
+    rotate: 8deg;
+  }
+  75% {
+    translate: -2% 0;
+    rotate: -5deg;
+  }
+  90% {
+    rotate: 2deg;
+  }
+  100% {
+    opacity: 0.25;
+    translate: 0 0;
+    rotate: 0deg;
+  }
+}
+
+.magnifier-enter {
+  opacity: 0.25;
+  animation: magnifier-enter 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magnifier-enter {
+    animation: none;
+  }
+}
